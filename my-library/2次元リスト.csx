@@ -1,6 +1,6 @@
 // using System.Runtime.CompilerServices;
 
-class List2D
+static class List2D
 {
   [MethodImpl(256)]
   public static void Fill<T>(T[,] array, int size1, int size2, T value)

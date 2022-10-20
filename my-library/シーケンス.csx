@@ -1,6 +1,6 @@
 // using System.Runtime.CompilerServices;
 
-class Seq
+static class Seq
 {
   /// <remarks>O(L) where L is src's Length</remarks>
   [MethodImpl(256)]

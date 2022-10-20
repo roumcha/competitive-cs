@@ -1,6 +1,6 @@
 // using System.Runtime.CompilerServices;
 
-class List3D
+static class List3D
 {
   [MethodImpl(256)]
   public static void Fill<T>(

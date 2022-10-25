@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+// using System.Runtime.CompilerServices;
 
 public interface IStaticMod { uint Mod { get; } bool IsPrime { get; } }
 public readonly struct Mod1000000007 : IStaticMod

@@ -21,3 +21,11 @@
   - Code Runner
   - Prettier
   - indent-rainbow
+
+## その他
+
+以下を含む、 CC0 ライセンスで公開されているソースコードの一部を使用させていただいています。
+
+- [kzrnm/ac-library-csharp](https://github.com/kzrnm/ac-library-csharp/tree/7cef397) (commit: 7cef397)
+- [camypaper/complib](https://github.com/camypaper/complib/tree/f730dc7) (commit: f730dc7)
+- keymoon/ac-library-cs (リンク切れ)

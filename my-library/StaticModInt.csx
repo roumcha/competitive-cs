@@ -1,4 +1,4 @@
-// using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 public interface IStaticMod { uint Mod { get; } bool IsPrime { get; } }
 public readonly struct Mod1000000007 : IStaticMod
@@ -154,6 +154,17 @@ public readonly struct StaticModInt<T>
   [MethodImpl(256)]
   static long SafeMod(long x, long m)
   { x %= m; if (x < 0) x += m; return x; }
+  [MethodImpl(256)]
+  public static StaticModInt<T> Combination(int n, int r)
+  {
+    StaticModInt<T> x = 1;
+    for (int i = 0; i < r; i++) x *= n - i;
+    for (int i = 1; i <= r; i++) x /= i;
+    return x;
+  }
+  [MethodImpl(256)]
+  public static StaticModInt<T> Permutation(int n, int r)
+  { StaticModInt<T> x = 1; while (n > r) x *= n--; return x; }
   public override string ToString() => _v.ToString();
   public string ToString(string format, IFormatProvider formatProvider)
   => _v.ToString(format, formatProvider);

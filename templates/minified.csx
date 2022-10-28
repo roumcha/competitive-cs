@@ -21,10 +21,10 @@ static class Program {
   Dev()=>main();static void Main(){Console.SetOut(new _O(Console.
   OpenStandardOutput()){AutoFlush=FLUSH});main();Console.Out.Flush();}
 
-  [MethodImpl(256)]static bool ChMax<T>(ref T a,T b)where T:IComparable
-  {if(a.CompareTo(b)<0){a=b;return true;}return false;}[MethodImpl(256)
-  ]public static bool ChMin<T>(ref T a,T b)where T:IComparable{if(a.
-  CompareTo(b)>0){a=b;return true;}return false;}
+  [MethodImpl(256)]public static bool ChMax<T>(ref T a,T b)where
+  T:IComparable{if(a.CompareTo(b)<0){a=b;return true;}return false;}[
+  MethodImpl(256)]public static bool ChMin<T>(ref T a,T b)where T:
+  IComparable{if(a.CompareTo(b)>0){a=b;return true;}return false;}
 }
 
 class _I{public _I(Stream s){this.s=s;}Stream s;byte[]u=new byte[1024];

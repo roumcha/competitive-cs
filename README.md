@@ -21,6 +21,8 @@
   - Code Runner
   - Prettier
   - indent-rainbow
+  
+VSCode の設定で `"omnisharp.enableRoslynAnalyzers": true` とすると、高度なコード提案が可能。ちょっと起動遅い。
 
 ## その他
 

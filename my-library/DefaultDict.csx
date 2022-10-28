@@ -1,6 +1,6 @@
 // using System.Runtime.CompilerServices;
 
-static class DefaultDict<K, V> : Dictionary<K, V>
+class DefaultDict<K, V> : Dictionary<K, V>
 {
   private Func<V> _d = () => default(V);
   [MethodImpl(256)]

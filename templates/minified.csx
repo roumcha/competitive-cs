@@ -11,7 +11,7 @@ using static System.Math;
 
 static class Program {
   static void main() {
-    
+
   }
 
 
@@ -44,7 +44,7 @@ Parse(c,InvariantCulture);[MethodImpl(256)]public static implicit
 operator double(_I c)=>double.Parse(c,InvariantCulture);[MethodImpl(256
 )]public static implicit operator decimal(_I c)=>decimal.Parse(c,
 InvariantCulture);/*[MethodImpl(256)]public static implicit operator
-bigint(I c)=>bigint.Parse(c,InvariantCulture);*/}
+bigint(_I c)=>bigint.Parse(c,InvariantCulture);*/}
 
 class _O:StreamWriter{public override IFormatProvider FormatProvider{
 get{return InvariantCulture;}}public _O(Stream s):base(s,new

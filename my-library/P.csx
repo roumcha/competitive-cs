@@ -1,4 +1,4 @@
-// using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 struct P {
   public int X, Y;
@@ -21,4 +21,8 @@ struct P {
   [MethodImpl(256)]
   public long DistM(P p)
   => Math.Abs((long)X - p.X) + Math.Abs((long)Y - p.Y);
+
+  [MethodImpl(256)]
+  public override string ToString()
+  => "(" + X.ToString() + ", " + Y.ToString() + ")";
 }

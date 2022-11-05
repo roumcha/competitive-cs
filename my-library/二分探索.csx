@@ -29,7 +29,7 @@ static class BinarySearch {
   /// O(log N)
   /// </remarks>
   [MethodImpl(256)]
-  public static int LowerBound<T>(T item, ref T[] ary) {
+  public static int LowerBound<T>(T item, T[] ary) {
     var r = Array.BinarySearch(ary, item); return r >= 0 ? r : ~r;
   }
 
@@ -38,7 +38,7 @@ static class BinarySearch {
   /// O(log N)
   /// </remarks>
   [MethodImpl(256)]
-  public static int LowerBound<T>(T item, ref List<T> list) {
+  public static int LowerBound<T>(T item, List<T> list) {
     var r = list.BinarySearch(item); return r >= 0 ? r : ~r;
   }
 }

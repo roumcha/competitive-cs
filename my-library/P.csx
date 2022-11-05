@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+// using System.Runtime.CompilerServices;
 
 struct P {
   public int X, Y;
@@ -16,6 +16,12 @@ struct P {
   public double Dist(P p) {
     double dx = (double)X - p.X, dy = (double)Y - p.Y;
     return Math.Sqrt(dx * dx + dy * dy);
+  }
+
+  [MethodImpl(256)]
+  public long Dist2(P p) {
+    long dx = (long)X - p.X, dy = (long)Y - p.Y;
+    return dx * dx + dy * dy;
   }
 
   [MethodImpl(256)]

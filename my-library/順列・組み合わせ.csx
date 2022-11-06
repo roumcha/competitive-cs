@@ -1,5 +1,7 @@
 // using System.Runtime.CompilerServices;
 
+// TODO: next_permutation, prev_permutation
+
 [MethodImpl(256)]
 static long Combination(int n, int r) {
   if (r < 0 || n < r) return 0;

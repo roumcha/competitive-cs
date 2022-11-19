@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+// using System.Runtime.CompilerServices;
 
 /// <remarks>デフォルトは小さい順</remarks>
 class PriorityQueue_2<T> : PriorityQueueOp<T, ComparableComparer<T>>

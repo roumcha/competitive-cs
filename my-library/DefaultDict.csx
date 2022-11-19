@@ -2,7 +2,7 @@
 
 class DefaultDict<K, V> : Dictionary<K, V>
 {
-  private Func<V> _d = () => default(V);
+  Func<V> _d = () => default(V);
   [MethodImpl(256)]
   public DefaultDict() : base() { }
   [MethodImpl(256)]

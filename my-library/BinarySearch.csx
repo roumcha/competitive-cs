@@ -3,8 +3,8 @@
 static class BinarySearch {
   /// <remarks>O(log N)</remarks>
   [MethodImpl(256)]
-  public static int Search(
-    int ok, int ng, Func<int, bool> condition
+  public static long Search(
+    long ok, long ng, Func<long, bool> condition
   ) {
     while (Math.Abs(ng - ok) > 1) {
       var m = (ok + ng) / 2; if (condition(m)) ok = m; else ng = m;
@@ -13,8 +13,8 @@ static class BinarySearch {
   }
   /// <remarks>O(log N)</remarks>
   [MethodImpl(256)]
-  public static int Search(
-    int ok, int ng, Func<int, int, int, bool> condition
+  public static long Search(
+    long ok, long ng, Func<long, long, long, bool> condition
   ) {
     while (Math.Abs(ng - ok) > 1) {
       var m = (ok + ng) / 2;
@@ -45,6 +45,7 @@ static class BinarySearch {
     return ok;
   }
 }
+
 class LowerBound<T> : IComparer<T> where T : IComparable<T> {
   [MethodImpl(256)]
   public int Compare(T x, T y) { return 0 <= x.CompareTo(y) ? 1 : -1; }

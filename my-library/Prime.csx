@@ -1,61 +1,57 @@
-static class Prime
-{
+using System.Runtime.CompilerServices;
+
+static class Prime {
+  /// <summary素数か否か</summary>
   /// <remarks>O(√N)</remarks>
-  public static bool IsPrime(uint n)
-  {
+  [MethodImpl(256)]
+  public static bool IsPrime(uint n) {
     if ((n & 1) == 0 || n <= 2) return n == 2;
     for (ulong i = 3; i * i <= n; i += 2)
       if (n % i == 0) return false;
     return true;
   }
 
+  /// <summary素数か否か一覧</summary>
   /// <remarks>O(N log log N)</remarks>
-  public static bool[] Sieve(uint max)
-  {
+  public static bool[] Sieve(uint max) {
     if (max <= 1) return new bool[max];
-    var sv = new bool[(ulong)max + 1];
-    Array.Fill(sv, true); sv[1] = false;
-    for (uint i = 2; i <= max; i++)
-    {
-      if (!sv[i]) continue;
-      for (var j = (ulong)i * i; j <= max; j += i) sv[j] = false;
+    var s = new bool[(ulong)max + 1];
+    Array.Fill(s, true); s[1] = false;
+    for (uint i = 2; i <= max; i++) {
+      if (!s[i]) continue;
+      for (var j = (ulong)i * i; j <= max; j += i) s[j] = false;
     }
-    return sv;
+    return s;
   }
 
-  /// <summary>最小の素因数 (Smallest prime factor)</summary>
+  /// <summary>最小の素因数一覧 (Smallest prime factor)</summary>
   /// <remarks>O(N log log N)</remarks>
-  public static int[] Spfs(uint max)
-  {
-    if (max <= 1) return new int[0];
-    var sv = new int[(ulong)max + 1];
-    for (uint i = 2; i <= max; i++)
-    {
-      if (sv[i] != 0) continue;
-      sv[i] = (int)i;
-      for (var j = (ulong)i * i; j <= max; j += i) sv[j] = (int)i;
+  public static uint[] Spfs(uint max) {
+    if (max <= 1) return new uint[0];
+    var s = new uint[(ulong)max + 1];
+    for (uint i = 2; i <= max; i++) {
+      if (s[i] != 0) continue;
+      s[i] = i;
+      for (var j = (ulong)i * i; j <= max; j += i) {
+        if (s[j] == 0) s[j] = i;
+      }
     }
-    return sv;
+    return s;
   }
 }
 
-/// <remarks>
-/// <para>SPF: 前処理 O(N log log N)、クエリ O(log N)</para>
-/// <para>篩: 前処理 O(√N log log N)、クエリ O(√N / log N)</para>
-/// </remarks>
-class PrimeFactorizer
-{
-  uint _max; bool _mode; int[] _pre;
-
-  public PrimeFactorizer(uint max, bool spfOrSieve)
-  {
-    _max = max; _mode = spfOrSieve;
-    if (spfOrSieve) _pre = Prime.Spfs(max);
-    else
-    {
-      var sieve = Prime.Sieve((uint)Math.Sqrt(max) + 10);
-      // var primes = new List<uint>((int)(max / Math.Log(max) * 1.1) + 100);
-      for (ulong i = 2; i * i <= max; i++)
+class PrimeFactorizer {
+  uint[] s;
+  /// <remarks>O(N log log N)</remarks>
+  public PrimeFactorizer(uint max) { s = Prime.Spfs(max); }
+  /// <summary>O(log N)</summary>
+  public List<Tuple<uint, uint>> Factorize(uint n) {
+    var r = new List<Tuple<uint, uint>>();
+    while (n > 1) {
+      uint p = s[n], e = 0;
+      while (s[n] == p) { n /= p; e++; }
+      r.Add(Tuple.Create(p, e));
     }
+    return r;
   }
 }

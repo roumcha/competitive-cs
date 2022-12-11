@@ -1,32 +1,36 @@
+// using System.Runtime.InteropServices;
 // using System.Runtime.CompilerServices;
 
-static class List2D
-{
+static class List2D {
   [MethodImpl(256)]
-  public static void Fill<T>(T[,] array, int size1, int size2, T value)
-  {
-    for (int i = 0; i < size1; ++i)
-      for (int j = 0; j < size2; ++j) array[i, j] = value;
+  public static Span<T> AsSpan<T>(T[,] arr)
+  => MemoryMarshal.CreateSpan(ref arr[0, 0], arr.Length);
+
+  [MethodImpl(256)]
+  public static void Fill<T>(T[,] arr, T value)
+  => AsSpan(arr).Fill(value);
+
+  [MethodImpl(256)]
+  public static void Fill<T>(
+    IList<IList<T>> list, int s1, int s2, T value
+  ) {
+    for (int i = 0; i < s1; ++i)
+      for (int j = 0; j < s2; ++j) list[i][j] = value;
   }
 
   [MethodImpl(256)]
-  public static void Fill<T>(T[,] array, int size1, int size2, Func<int, int, T> generator)
-  {
-    for (int i = 0; i < size1; ++i)
-      for (int j = 0; j < size2; ++j) array[i, j] = generator(i, j);
+  public static void Init<T>(T[,] arr, Func<int, int, T> generator) {
+    int s1 = arr.GetLength(0), s2 = arr.GetLength(1);
+    for (int i = 0; i < s1; ++i)
+      for (int j = 0; j < s2; ++j) arr[i, j] = generator(i, j);
   }
 
   [MethodImpl(256)]
-  public static void Fill<T>(IList<IList<T>> list, int size1, int size2, T value)
-  {
-    for (int i = 0; i < size1; ++i)
-      for (int j = 0; j < size2; ++j) list[i][j] = value;
-  }
-
-  [MethodImpl(256)]
-  public static void Fill<T>(IList<IList<T>> list, int size1, int size2, Func<int, int, T> generator)
-  {
-    for (int i = 0; i < size1; ++i)
-      for (int j = 0; j < size2; ++j) list[i][j] = generator(i, j);
+  public static void Init<T>(
+    IList<IList<T>> list, int s1, int s2,
+    Func<int, int, T> generator
+  ) {
+    for (int i = 0; i < s1; ++i)
+      for (int j = 0; j < s2; ++j) list[i][j] = generator(i, j);
   }
 }

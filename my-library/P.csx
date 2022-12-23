@@ -4,6 +4,9 @@ struct P {
   public int X, Y;
   [MethodImpl(256)] public P(int x, int y) { X = x; Y = y; }
   [MethodImpl(256)]
+  public static implicit operator P((int X, int Y) t)
+    => new P(t.X, t.Y);
+  [MethodImpl(256)]
   public static P operator +(P a, P b) => new P(a.X + b.X, a.Y + b.Y);
   [MethodImpl(256)]
   public static P operator -(P a, P b) => new P(a.X - b.X, a.Y - b.Y);

@@ -15,6 +15,10 @@ struct P : IEquatable<P> {
   [MethodImpl(256)]
   public static P operator /(P a, int b) => new P(a.X / b, a.Y / b);
   [MethodImpl(256)]
+  public static bool operator ==(P a, P b) => a.Equals(b);
+  [MethodImpl(256)]
+  public static bool operator !=(P a, P b) => !a.Equals(b);
+  [MethodImpl(256)]
   public double DistE(P p) {
     double dx = (double)X - p.X, dy = (double)Y - p.Y;
     return Math.Sqrt(dx * dx + dy * dy);
@@ -33,7 +37,9 @@ struct P : IEquatable<P> {
   [MethodImpl(256)]
   public bool Equals(P b) => this.X == b.X && this.Y == b.Y;
   [MethodImpl(256)]
-  public static bool operator ==(P a, P b) => a.Equals(b);
+  public override bool Equals(
+    [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] object o)
+  => base.Equals(o);
   [MethodImpl(256)]
-  public static bool operator !=(P a, P b) => !a.Equals(b);
+  public override int GetHashCode() => base.GetHashCode();
 }

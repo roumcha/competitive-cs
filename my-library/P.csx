@@ -1,4 +1,4 @@
-// using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 struct P : IEquatable<P> {
   public int X, Y;
@@ -32,4 +32,8 @@ struct P : IEquatable<P> {
   => "(" + X.ToString() + ", " + Y.ToString() + ")";
   [MethodImpl(256)]
   public bool Equals(P b) => this.X == b.X && this.Y == b.Y;
+  [MethodImpl(256)]
+  public static bool operator ==(P a, P b) => a.Equals(b);
+  [MethodImpl(256)]
+  public static bool operator !=(P a, P b) => !a.Equals(b);
 }

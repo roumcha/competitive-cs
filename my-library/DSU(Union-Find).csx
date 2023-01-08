@@ -1,6 +1,8 @@
 // using System.Diagnostics;
 // using System.Runtime.CompilerServices;
 
+// keymoon/ac-library-cs から一部変更
+
 class DSU {
   int _count; int[] _parentOrSize;
 

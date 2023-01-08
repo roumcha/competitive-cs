@@ -1,5 +1,7 @@
 // using System.Runtime.CompilerServices;
 
+// kzrnm/ac-library-csharp から一部変更
+
 public interface IStaticMod { uint Mod { get; } bool IsPrime { get; } }
 public readonly struct Mod1000000007 : IStaticMod {
   public uint Mod => 1000000007; public bool IsPrime => true;

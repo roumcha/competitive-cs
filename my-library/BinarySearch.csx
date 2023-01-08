@@ -7,7 +7,7 @@ static class BinarySearch {
     long ok, long ng, Func<long, bool> condition
   ) {
     while (Math.Abs(ng - ok) > 1) {
-      var m = (ok + ng) / 2; if (condition(m)) ok = m; else ng = m;
+      var m = (ok + ng) >> 1; if (condition(m)) ok = m; else ng = m;
     }
     return ok;
   }
@@ -17,7 +17,7 @@ static class BinarySearch {
     long ok, long ng, Func<long, long, long, bool> condition
   ) {
     while (Math.Abs(ng - ok) > 1) {
-      var m = (ok + ng) / 2;
+      var m = (ok + ng) >> 1;
       if (condition(ok, m, ng)) ok = m; else ng = m;
     }
     return ok;

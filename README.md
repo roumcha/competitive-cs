@@ -26,7 +26,7 @@ VSCode の設定で `"omnisharp.enableRoslynAnalyzers": true` とすると、高
 
 ## 謝辞
 
-以下を含む、 CC0 ライセンスで公開されているソースコードの一部を使用させていただいています。
+CC0 ライセンスで公開されているコードを使用しています。
 
 - [kzrnm/ac-library-csharp](https://github.com/kzrnm/ac-library-csharp/tree/7cef397) (commit: 7cef397)
 - [camypaper/complib](https://github.com/camypaper/complib/tree/f730dc7) (commit: f730dc7)

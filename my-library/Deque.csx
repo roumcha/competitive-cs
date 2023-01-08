@@ -1,6 +1,8 @@
 // using System.Collections;
 // using System.Runtime.CompilerServices;
 
+// kzrnm/ac-library-csharp から一部変更
+
 public class Deque<T>
 : IEnumerable<T>, IReadOnlyCollection<T>, ICollection<T> {
   public T[] data; public int mask, head, tail;

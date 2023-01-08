@@ -1,12 +1,12 @@
 // using System.Runtime.CompilerServices;
 
-public class Set<T>
-{
+// camypaper/complib から一部変更
+
+public class Set<T> {
   Node root; readonly IComparer<T> comparer; readonly Node nil;
   public bool IsMultiSet { [MethodImpl(256)] get; [MethodImpl(256)] set; }
   [MethodImpl(256)]
-  public Set(IComparer<T> comparer)
-  {
+  public Set(IComparer<T> comparer) {
     nil = new Node(default(T));
     root = nil;
     this.comparer = comparer;
@@ -21,17 +21,14 @@ public class Set<T>
 	public T this[int index] { [MethodImpl(256)] get { return find(root, index); } }
   public int Count { [MethodImpl(256)] get { return root.Count; } }
   [MethodImpl(256)]
-  public void RemoveAt(int k)
-  {
+  public void RemoveAt(int k) {
     if (k < 0 || k >= root.Count) throw new ArgumentOutOfRangeException();
     removeAt(ref root, k);
   }
   /// <remarks>O(N)</remarks>
-  public T[] Items
-  {
+  public T[] Items {
     [MethodImpl(256)]
-    get
-    {
+    get {
       var ret = new T[root.Count];
       var k = 0;
       walk(root, ret, ref k);
@@ -39,8 +36,7 @@ public class Set<T>
     }
   }
   [MethodImpl(256)]
-  void walk(Node t, T[] a, ref int k)
-  {
+  void walk(Node t, T[] a, ref int k) {
     if (t.Count == 0) return;
     walk(t.lst, a, ref k);
     a[k++] = t.Key;
@@ -48,32 +44,27 @@ public class Set<T>
   }
 
   [MethodImpl(256)]
-  bool insert(ref Node t, T key)
-  {
+  bool insert(ref Node t, T key) {
     if (t.Count == 0) { t = new Node(key); t.lst = t.rst = nil; t.Update(); return true; }
     var cmp = comparer.Compare(t.Key, key);
     bool res;
     if (cmp > 0)
       res = insert(ref t.lst, key);
-    else if (cmp == 0)
-    {
+    else if (cmp == 0) {
       if (IsMultiSet) res = insert(ref t.lst, key);
       else return false;
-    }
-    else res = insert(ref t.rst, key);
+    } else res = insert(ref t.rst, key);
     balance(ref t);
     return res;
   }
   [MethodImpl(256)]
-  bool remove(ref Node t, T key)
-  {
+  bool remove(ref Node t, T key) {
     if (t.Count == 0) return false;
     var cmp = comparer.Compare(key, t.Key);
     bool ret;
     if (cmp < 0) ret = remove(ref t.lst, key);
     else if (cmp > 0) ret = remove(ref t.rst, key);
-    else
-    {
+    else {
       ret = true;
       var k = t.lst.Count;
       if (k == 0) { t = t.rst; return true; }
@@ -86,13 +77,11 @@ public class Set<T>
     return ret;
   }
   [MethodImpl(256)]
-  void removeAt(ref Node t, int k)
-  {
+  void removeAt(ref Node t, int k) {
     var cnt = t.lst.Count;
     if (cnt < k) removeAt(ref t.rst, k - cnt - 1);
     else if (cnt > k) removeAt(ref t.lst, k);
-    else
-    {
+    else {
       if (cnt == 0) { t = t.rst; return; }
       if (t.rst.Count == 0) { t = t.lst; return; }
 
@@ -102,25 +91,19 @@ public class Set<T>
     balance(ref t);
   }
   [MethodImpl(256)]
-  void balance(ref Node t)
-  {
+  void balance(ref Node t) {
     var balance = t.lst.Height - t.rst.Height;
-    if (balance == -2)
-    {
+    if (balance == -2) {
       if (t.rst.lst.Height - t.rst.rst.Height > 0) { rotR(ref t.rst); }
       rotL(ref t);
-    }
-    else if (balance == 2)
-    {
+    } else if (balance == 2) {
       if (t.lst.lst.Height - t.lst.rst.Height < 0) rotL(ref t.lst);
       rotR(ref t);
-    }
-    else t.Update();
+    } else t.Update();
   }
 
   [MethodImpl(256)]
-  T find(Node t, int k)
-  {
+  T find(Node t, int k) {
     if (k < 0 || k > root.Count) throw new ArgumentOutOfRangeException();
     for (; ; )
     {
@@ -131,8 +114,7 @@ public class Set<T>
   }
   /// <remarks>O(log N)</remarks>
   [MethodImpl(256)]
-  public int LowerBound(T v)
-  {
+  public int LowerBound(T v) {
     var k = 0;
     var t = root;
     for (; ; )
@@ -144,21 +126,18 @@ public class Set<T>
   }
   /// <remarks>O(log N)</remarks>
   [MethodImpl(256)]
-  public int UpperBound(T v)
-  {
+  public int UpperBound(T v) {
     var k = 0;
     var t = root;
     for (; ; )
     {
       if (t.Count == 0) return k;
-      if (comparer.Compare(t.Key, v) <= 0) { k += t.lst.Count + 1; t = t.rst; }
-      else t = t.lst;
+      if (comparer.Compare(t.Key, v) <= 0) { k += t.lst.Count + 1; t = t.rst; } else t = t.lst;
     }
   }
 
   [MethodImpl(256)]
-  void rotR(ref Node t)
-  {
+  void rotR(ref Node t) {
     var l = t.lst;
     t.lst = l.rst;
     l.rst = t;
@@ -167,8 +146,7 @@ public class Set<T>
     t = l;
   }
   [MethodImpl(256)]
-  void rotL(ref Node t)
-  {
+  void rotL(ref Node t) {
     var r = t.rst;
     t.rst = r.lst;
     r.lst = t;
@@ -177,16 +155,14 @@ public class Set<T>
     t = r;
   }
 
-  class Node
-  {
+  class Node {
     [MethodImpl(256)] public Node(T key) { Key = key; }
     public int Count { [MethodImpl(256)] get; [MethodImpl(256)] private set; }
     public sbyte Height { [MethodImpl(256)] get; [MethodImpl(256)] private set; }
     public T Key { [MethodImpl(256)] get; [MethodImpl(256)] set; }
     public Node lst, rst;
     [MethodImpl(256)]
-    public void Update()
-    {
+    public void Update() {
       Count = 1 + lst.Count + rst.Count;
       Height = (sbyte)(1 + Math.Max(lst.Height, rst.Height));
     }

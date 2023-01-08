@@ -1,5 +1,7 @@
 // using System.Runtime.CompilerServices;
 
+// kzrnm/ac-library-csharp から一部変更
+
 /// <remarks>デフォルトは小さい順</remarks>
 class PriorityQueue_2<T> : PriorityQueueOp<T, ComparableComparer<T>>
   where T : IComparable<T> {

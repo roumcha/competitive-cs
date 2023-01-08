@@ -13,7 +13,7 @@ class RollingHashFast {
 class RollingHash1<T> where T : RollingHashConsts {
   int N; long[] Hash, Pow; static T C = default(T);
 
-  [MethodImpl(256)]
+  [MethodImpl(512)]
   public RollingHash1(string s) {
     N = s.Length;
     Hash = new long[N + 1]; Hash[0] = 0;

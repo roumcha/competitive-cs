@@ -1,8 +1,6 @@
-// using System.Runtime.CompilerServices;
-
 static class Seq {
   /// <remarks>O(L) where L is src's Length</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static IEnumerable<(T Item, int Cnt)> RunLengthEncode<T>(
     IEnumerable<T> src, T defval)
     where T : IEquatable<T> {
@@ -16,7 +14,7 @@ static class Seq {
   }
 
   /// <remarks>O(L log L) where L is src's Length</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static bool TryFirstDuplicate<T>(
     IEnumerable<T> src, T defval, out int pos, out T res) {
     int i = 0; pos = -1; res = defval;
@@ -29,7 +27,7 @@ static class Seq {
   }
 
   /// <remarks>O(L) where L is src's Length</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static IEnumerable<TRes> Scan<TSrc, TRes>(
     IEnumerable<TSrc> src, TRes state, Func<TRes, TSrc, TRes> folder) {
     yield return state;
@@ -37,7 +35,7 @@ static class Seq {
   }
 
   /// <remarks>O(L log L) where L is src's Length</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static Dictionary<T, int> Count<T>(IEnumerable<T> src) {
     var d = new Dictionary<T, int>();
     foreach (var x in src)
@@ -46,7 +44,7 @@ static class Seq {
   }
 
   /// <remarks>O(L log L) where L is src's Length</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static Dictionary<TVal, int> CountBy<TKey, TVal>(
     IEnumerable<TKey> src, Func<TKey, TVal> projection) {
     var d = new Dictionary<TVal, int>();

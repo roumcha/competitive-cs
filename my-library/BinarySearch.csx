@@ -1,8 +1,6 @@
-// using System.Runtime.CompilerServices;
-
 static class BinarySearch {
   /// <remarks>O(log N)</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static long Search(
     long ok, long ng, Func<long, bool> condition
   ) {
@@ -12,7 +10,7 @@ static class BinarySearch {
     return ok;
   }
   /// <remarks>O(log N)</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static long Search(
     long ok, long ng, Func<long, long, long, bool> condition
   ) {
@@ -23,7 +21,7 @@ static class BinarySearch {
     return ok;
   }
   /// <remarks>O(log N)</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static double Search(
     double ok, double ng, double prec, Func<double, bool> condition
   ) {
@@ -33,7 +31,7 @@ static class BinarySearch {
     return ok;
   }
   /// <remarks>O(log N)</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static double Search(
     double ok, double ng, double prec,
     Func<double, double, double, bool> condition
@@ -47,10 +45,10 @@ static class BinarySearch {
 }
 
 class LowerBound<T> : IComparer<T> where T : IComparable<T> {
-  [MethodImpl(256)]
+  [MI(256)]
   public int Compare(T x, T y) { return 0 <= x.CompareTo(y) ? 1 : -1; }
 }
 class UpperBound<T> : IComparer<T> where T : IComparable<T> {
-  [MethodImpl(256)]
+  [MI(256)]
   public int Compare(T x, T y) { return 0 < x.CompareTo(y) ? 1 : -1; }
 }

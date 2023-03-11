@@ -1,9 +1,7 @@
-// using System.Runtime.CompilerServices;
-
 static class Prime {
   /// <summary素数か否か</summary>
   /// <remarks>O(√N)</remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static bool IsPrime(uint n) {
     if ((n & 1) == 0 || n <= 2) return n == 2;
     for (ulong i = 3; i * i <= n; i += 2)

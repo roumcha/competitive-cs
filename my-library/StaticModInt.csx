@@ -1,7 +1,3 @@
-// using System.Runtime.CompilerServices;
-
-// kzrnm/ac-library-csharp から一部変更
-
 public interface IStaticMod { uint Mod { get; } bool IsPrime { get; } }
 public readonly struct Mod1000000007 : IStaticMod {
   public uint Mod => 1000000007; public bool IsPrime => true;
@@ -18,38 +14,38 @@ public readonly struct StaticModInt<T>
   public static int Mod => (int)op.Mod;
   public static StaticModInt<T> Zero => default;
   public static StaticModInt<T> One => new StaticModInt<T>(1u);
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> Raw(int v) {
     var u = unchecked((uint)v);
     Contract.Assert(
       u < Mod, $"{nameof(u)} must be less than {nameof(Mod)}.");
     return new StaticModInt<T>(u);
   }
-  [MethodImpl(256)] public StaticModInt(long v) : this(Round(v)) { }
-  [MethodImpl(256)]
+  [MI(256)] public StaticModInt(long v) : this(Round(v)) { }
+  [MI(256)]
   public StaticModInt(ulong v) : this((uint)(v % op.Mod)) { }
-  [MethodImpl(256)] StaticModInt(uint v) => _v = v;
-  [MethodImpl(256)]
+  [MI(256)] StaticModInt(uint v) => _v = v;
+  [MI(256)]
   static uint Round(long v) {
     var x = v % op.Mod; if (x < 0) x += op.Mod; return (uint)x;
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> operator ++(StaticModInt<T> v) {
     var x = v._v + 1;
     if (x == op.Mod) x = 0; return new StaticModInt<T>(x);
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> operator --(StaticModInt<T> v) {
     var x = v._v;
     if (x == 0) x = op.Mod; return new StaticModInt<T>(x - 1);
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> operator +(
     StaticModInt<T> lhs, StaticModInt<T> rhs) {
     var v = lhs._v + rhs._v;
     if (v >= op.Mod) v -= op.Mod; return new StaticModInt<T>(v);
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> operator -(
     StaticModInt<T> lhs, StaticModInt<T> rhs) {
     unchecked {
@@ -57,7 +53,7 @@ public readonly struct StaticModInt<T>
       if (v >= op.Mod) v += op.Mod; return new StaticModInt<T>(v);
     }
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> operator *(
     StaticModInt<T> lhs, StaticModInt<T> rhs)
   => new StaticModInt<T>((uint)((ulong)lhs._v * rhs._v % op.Mod));
@@ -67,30 +63,30 @@ public readonly struct StaticModInt<T>
   /// （gcd(<paramref name="rhs"/>, mod) = 1）</para>
   /// <para>- 計算量: O(log(mod))</para>
   /// </remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> operator /(
     StaticModInt<T> lhs, StaticModInt<T> rhs) => lhs * rhs.Inv();
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> operator +(StaticModInt<T> v) => v;
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> operator -(StaticModInt<T> v)
   => new StaticModInt<T>(v._v == 0 ? 0 : op.Mod - v._v);
-  [MethodImpl(256)]
+  [MI(256)]
   public static bool operator ==(
     StaticModInt<T> lhs, StaticModInt<T> rhs) => lhs._v == rhs._v;
-  [MethodImpl(256)]
+  [MI(256)]
   public static bool operator !=(
     StaticModInt<T> lhs, StaticModInt<T> rhs) => lhs._v != rhs._v;
-  [MethodImpl(256)]
+  [MI(256)]
   public static implicit operator StaticModInt<T>(int v)
   => new StaticModInt<T>(v);
-  [MethodImpl(256)]
+  [MI(256)]
   public static implicit operator StaticModInt<T>(uint v)
   => new StaticModInt<T>((long)v);
-  [MethodImpl(256)]
+  [MI(256)]
   public static implicit operator StaticModInt<T>(long v)
   => new StaticModInt<T>(v);
-  [MethodImpl(256)]
+  [MI(256)]
   public static implicit operator StaticModInt<T>(ulong v)
   => new StaticModInt<T>(v);
   /// <summary>
@@ -100,7 +96,7 @@ public readonly struct StaticModInt<T>
   /// <para>制約: 0≤|<paramref name="n"/>|</para>
   /// <para>計算量: O(log(<paramref name="n"/>))</para>
   /// </remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public StaticModInt<T> Pow(long n) {
     Contract.Assert(0 <= n, $"{nameof(n)} must be positive.");
     var x = this; var r = new StaticModInt<T>(1U);
@@ -109,7 +105,7 @@ public readonly struct StaticModInt<T>
   }
   /// <summary>自身を x として、 xy≡1 なる y を返します。</summary>
   /// <remarks><para>制約: gcd(x, mod) = 1</para></remarks>
-  [MethodImpl(256)]
+  [MI(256)]
   public StaticModInt<T> Inv() {
     if (op.IsPrime) {
       Contract.Assert(
@@ -124,7 +120,7 @@ public readonly struct StaticModInt<T>
       return new StaticModInt<T>(x);
     }
   }
-  [MethodImpl(256)]
+  [MI(256)]
   static (long, long) InvGCD(long a, long b) {
     a = SafeMod(a, b); if (a == 0) return (b, 0);
     long s = b, t = a, m0 = 0, m1 = 1, u;
@@ -135,11 +131,11 @@ public readonly struct StaticModInt<T>
       u = t / s; t -= s * u; m1 -= m0 * u;
     }
   }
-  [MethodImpl(256)]
+  [MI(256)]
   static long SafeMod(long x, long m) {
     x %= m; if (x < 0) x += m; return x;
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> Combination(int n, int r) {
     if (r < 0 || n < r) return 0;
     StaticModInt<T> x = 1;
@@ -147,7 +143,7 @@ public readonly struct StaticModInt<T>
     for (int i = 1; i <= r; i++) x /= i;
     return x;
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public static StaticModInt<T> Permutation(int n, int r) {
     if (r < 0 || n < r) return 0;
     StaticModInt<T> x = 1; while (n > r) x *= n--; return x;
@@ -157,7 +153,7 @@ public readonly struct StaticModInt<T>
   => _v.ToString(format, formatProvider);
   public override bool Equals(object obj)
   => obj is StaticModInt<T> m && this.Equals(m);
-  [MethodImpl(256)]
+  [MI(256)]
   public bool Equals(StaticModInt<T> other) => _v == other._v;
   public override int GetHashCode() => _v.GetHashCode();
 

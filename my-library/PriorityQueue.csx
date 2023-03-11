@@ -1,7 +1,3 @@
-// using System.Runtime.CompilerServices;
-
-// kzrnm/ac-library-csharp から一部変更
-
 /// <remarks>デフォルトは小さい順</remarks>
 class PriorityQueue_2<T> : PriorityQueueOp<T, ComparableComparer<T>>
   where T : IComparable<T> {
@@ -34,20 +30,20 @@ class PriorityQueueOp<T, TOp> : IPriorityQueueOp<T>
   public int Count { get; private set; } = 0;
 
   public T Peek => data[0];
-  [MethodImpl(256)]
+  [MI(256)]
   internal void Resize() { Array.Resize(ref data, data.Length << 1); }
-  [MethodImpl(256)]
+  [MI(256)]
   public void Enqueue(T value) {
     if (Count >= data.Length) Resize();
     data[Count++] = value;
     UpdateUp(Count - 1);
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public bool TryDequeue(out T result) {
     if (Count == 0) { result = default(T); return false; }
     result = Dequeue(); return true;
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public T Dequeue() {
     var res = data[0];
     data[0] = data[--Count];
@@ -57,7 +53,7 @@ class PriorityQueueOp<T, TOp> : IPriorityQueueOp<T>
   /// <summary>
   /// <paramref name="value"/> を Enqueue(T) してから Dequeue します。
   /// </summary>
-  [MethodImpl(256)]
+  [MI(256)]
   public T EnqueueDequeue(T value) {
     var res = data[0];
     if (_comparer.Compare(value, res) <= 0) return value;
@@ -68,9 +64,9 @@ class PriorityQueueOp<T, TOp> : IPriorityQueueOp<T>
   /// <summary>
   /// Dequeue した値に <paramref name="func"/> を適用して Enqueue(T) します。
   /// </summary>
-  [MethodImpl(256)]
+  [MI(256)]
   public void DequeueEnqueue(Func<T, T> func) { data[0] = func(data[0]); UpdateDown(0); }
-  [MethodImpl(256)]
+  [MI(256)]
   protected internal void UpdateUp(int i) {
     var tar = data[i];
     while (i > 0) {
@@ -80,7 +76,7 @@ class PriorityQueueOp<T, TOp> : IPriorityQueueOp<T>
     }
     data[i] = tar;
   }
-  [MethodImpl(256)]
+  [MI(256)]
   protected internal void UpdateDown(int i) {
     var tar = data[i];
     int n = Count, child = 2 * i + 1;
@@ -92,7 +88,7 @@ class PriorityQueueOp<T, TOp> : IPriorityQueueOp<T>
     }
     data[i] = tar;
   }
-  [MethodImpl(256)] public void Clear() => Count = 0;
+  [MI(256)] public void Clear() => Count = 0;
 
   public ReadOnlySpan<T> Unorderd() => data.AsSpan(0, Count);
   private class DebugView {
@@ -123,7 +119,7 @@ struct ComparableComparer<T>
   where T : IComparable<T> {
   private IComparer<T> Comparer { get; }
   public ComparableComparer(IComparer<T> comparer) { Comparer = comparer; }
-  [MethodImpl(256)]
+  [MI(256)]
   public int Compare(T x, T y)
     => Comparer?.Compare(x, y) ?? x.CompareTo(y);
   #region Equatable

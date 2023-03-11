@@ -1,8 +1,3 @@
-// using System.Collections;
-// using System.Runtime.CompilerServices;
-
-// kzrnm/ac-library-csharp から一部変更
-
 public class Deque<T>
 : IEnumerable<T>, IReadOnlyCollection<T>, ICollection<T> {
   public T[] data; public int mask, head, tail;
@@ -22,24 +17,24 @@ public class Deque<T>
   static void ThrowDequeIsEmpty()
   => throw new InvalidOperationException("deque is empty");
 
-  [MethodImpl(256)]
+  [MI(256)]
   public T PopFirst() {
     if (head == tail) ThrowDequeIsEmpty();
     var item = data[head];
     head = (head + 1) & mask;
     return item;
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public T PopLast() {
     if (head == tail) ThrowDequeIsEmpty();
     return data[tail = (tail - 1) & mask];
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public void AddFirst(T item) {
     data[head = (head - 1) & mask] = item;
     if (head == tail) Resize();
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public void AddLast(T item) {
     data[tail] = item;
     tail = (tail + 1) & mask;
@@ -56,7 +51,7 @@ public class Deque<T>
     head = 0;
     tail = oldSize;
   }
-  [MethodImpl(256)] public void Clear() => head = tail = 0;
+  [MI(256)] public void Clear() => head = tail = 0;
   public void Add(T item) => this.AddLast(item);
   bool ICollection<T>.Contains(T item) {
     if (head == tail) return false;
@@ -81,9 +76,9 @@ public class Deque<T>
       Array.Copy(data, 0, array, arrayIndex + hsize, tail);
     }
   }
-  [MethodImpl(256)]
+  [MI(256)]
   public Enumerator Reversed() => new Enumerator(this, true);
-  [MethodImpl(256)]
+  [MI(256)]
   public Enumerator GetEnumerator() => new Enumerator(this, false);
   bool ICollection<T>.IsReadOnly => false;
   bool ICollection<T>.Remove(T item)
@@ -91,7 +86,7 @@ public class Deque<T>
   IEnumerator<T> IEnumerable<T>.GetEnumerator()
   => this.GetEnumerator();
   IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-  [MethodImpl(256)]
+  [MI(256)]
   static int CeilPow2(int n) {
     var un = (uint)n;
     return un <= 1
@@ -115,7 +110,7 @@ public class Deque<T>
       }
     }
     object IEnumerator.Current => Current;
-    [MethodImpl(256)]
+    [MI(256)]
     public bool MoveNext() {
       if (index == last) return false;
       if (isReverse) --index; else ++index;
@@ -123,7 +118,7 @@ public class Deque<T>
       return true;
     }
     public void Reset() { throw new NotSupportedException(); }
-    [MethodImpl(256)] public Enumerator GetEnumerator() => this;
+    [MI(256)] public Enumerator GetEnumerator() => this;
     IEnumerator<T> IEnumerable<T>.GetEnumerator() => this;
     IEnumerator IEnumerable.GetEnumerator() => this;
     public void Dispose() { }

@@ -1,5 +1,5 @@
 static class Prime {
-  /// <summary素数か否か</summary>
+  /// <summary>素数か否か</summary>
   /// <remarks>O(√N)</remarks>
   [MI(256)]
   public static bool IsPrime(uint n) {
@@ -9,7 +9,7 @@ static class Prime {
     return true;
   }
 
-  /// <summary素数か否か一覧</summary>
+  /// <summary>素数か否か一覧</summary>
   /// <remarks>O(N log log N)</remarks>
   public static bool[] Sieve(uint max) {
     if (max <= 1) return new bool[max];
@@ -43,12 +43,12 @@ class PrimeFactorizer {
   /// <remarks>O(N log log N)</remarks>
   public PrimeFactorizer(uint max) { s = Prime.Spfs(max); }
   /// <summary>O(log N)</summary>
-  public List<Tuple<uint, uint>> Factorize(uint n) {
-    var r = new List<Tuple<uint, uint>>();
+  public List<(uint P, uint Cnt)> Factorize(uint n) {
+    var r = new List<(uint P, uint Cnt)>();
     while (n > 1) {
       uint p = s[n], e = 0;
       while (s[n] == p) { n /= p; e++; }
-      r.Add(Tuple.Create(p, e));
+      r.Add((p, e));
     }
     return r;
   }

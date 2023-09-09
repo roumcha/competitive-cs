@@ -1,11 +1,15 @@
 {
+  // Editor
+  "files.autoGuessEncoding": false,
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "editor.stickyScroll.enabled": false,
+
+  // .NET
   "[csharp]": {
-    "editor.tabSize": 2
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "editor.tabSize": 2,
+    "editor.wordBasedSuggestions": false
   },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  "dotnetAcquisitionExtension.enableTelemetry": false,
+  "dotnet.codeLens.enableReferencesCodeLens": false
 }

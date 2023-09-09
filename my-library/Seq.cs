@@ -38,8 +38,7 @@ static class Seq {
   [MI(256)]
   public static Dictionary<T, int> Count<T>(IEnumerable<T> src) {
     var d = new Dictionary<T, int>();
-    foreach (var x in src)
-      if (d.TryGetValue(x, out var c)) d[x]++; else d[x] = 1;
+    foreach (var x in src) if (d.TryGetValue(x, out var c)) d[x]++; else d[x] = 1;
     return d;
   }
 

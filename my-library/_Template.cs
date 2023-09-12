@@ -1,5 +1,6 @@
+namespace template;
 #pragma warning disable format, CS8981
-global using static StaticLib; global using AtCoder; global using MathNet.Numerics; global using System.Collections; global using System.Diagnostics; global using System.Globalization; global using System.Numerics; global using System.Runtime.InteropServices; global using System.Text; global using System.Threading; global using static System.Math; global using MI = System.Runtime.CompilerServices.MethodImplAttribute; global using bigint = System.Numerics.BigInteger;
+using static StaticLib; using AtCoder; using MathNet.Numerics; using System.Collections; using System.Diagnostics; using System.Globalization; using System.Numerics; using System.Runtime.InteropServices; using System.Text; using System.Threading; using static System.Math; using MI = System.Runtime.CompilerServices.MethodImplAttribute; using bigint = System.Numerics.BigInteger;
 #pragma warning restore format
 
 

@@ -73,6 +73,10 @@ csharp_indent_switch_labels = true
 #     {
 csharp_indent_case_contents_when_block = false
 
+# this.
+dotnet_style_qualification_for_property	= true:suggestion
+dotnet_style_qualification_for_method = true:suggestion
+
 
 [*.{csproj,fsproj}]
 charset = utf-8

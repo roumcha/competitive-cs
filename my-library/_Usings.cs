@@ -1,6 +1,8 @@
 #pragma warning disable CS8981
 global using template;
 global using static template.AlgoLib;
+global using static template.HeuLib;
+global using static template.MyLib;
 global using AtCoder;
 global using MathNet.Numerics;
 global using System.Collections;

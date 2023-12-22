@@ -8,7 +8,7 @@
   "[csharp]": {
     "editor.acceptSuggestionOnCommitCharacter": false,
     "editor.tabSize": 2,
-    "editor.wordBasedSuggestions": false
+    "editor.wordBasedSuggestions": "off"
   },
   "dotnetAcquisitionExtension.enableTelemetry": false,
   "dotnet.codeLens.enableReferencesCodeLens": false

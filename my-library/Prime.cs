@@ -44,9 +44,9 @@ class PrimeFactorizer {
   readonly uint[] _spfs;
 
   /// <remarks>O(N log log N)</remarks>
-  public PrimeFactorizer(uint precalcMax) {
-    if (precalcMax <= 1 || precalcMax == uint.MaxValue) throw new ArgumentOutOfRangeException(nameof(precalcMax), "input must be >= 2 and < uint.MaxValue");
-    _spfs = PrimeNumber.Spfs(precalcMax);
+  public PrimeFactorizer(uint maxIncl) {
+    if (maxIncl <= 1 || maxIncl == uint.MaxValue) throw new ArgumentOutOfRangeException(nameof(maxIncl), "input must be >= 2 and < uint.MaxValue");
+    _spfs = PrimeNumber.Spfs(maxIncl);
   }
 
   public PrimeFactorizer(uint[] spfs) => _spfs = spfs;

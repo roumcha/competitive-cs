@@ -63,26 +63,27 @@ public static partial class MyLib {
   public const long INF64 = 1L << 60;
   public static readonly CIn cin = new(Console.OpenStandardInput());
   public static readonly COut cout = new(Console.OpenStandardOutput()) { AutoFlush = DEBUG ? false : false };
-  public static readonly COut cerr = new(Console.OpenStandardError()) { AutoFlush = DEBUG ? true : false };
-  public static readonly ReadOnlyCollection<P> Dir4 = new P[] { (-1, 0), (0, -1), (1, 0), (0, 1) }.AsReadOnly();
-  public static readonly ReadOnlyCollection<P> Dir8 = new P[] { (-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1) }.AsReadOnly();
+  public static readonly COut cerr = new(Console.OpenStandardError()) { AutoFlush = DEBUG ? true : true };
+  public static readonly ReadOnlyCollection<P> Dir4 = new P[] { (0, 1), (1, 0), (0, -1), (-1, 0), }.AsReadOnly();
+  public static readonly ReadOnlyCollection<P> Dir8 = new P[] { (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), }.AsReadOnly();
   [MI(R256)] public static T Identity<T>(T x) => x;
   [MI(R256)] public static void Swap<T>(ref T a, ref T b) => (a, b) = (b, a);
   [MI(R256)] public static bool Change<T>(this ref T a, T b) where T : struct, IEquatable<T> { if (a.Equals(b)) return false; else { a = b; return true; } }
   [MI(R256)] public static bool ChMax<T>(this ref T a, T b) where T : struct, IComparable<T> { if (a.CompareTo(b) < 0) { a = b; return true; } return false; }
   [MI(R256)] public static int ChMax<T>(this ref T a, params T[] others) where T : struct, IComparable<T> { int idx = -1; for (int i = 0; i < others.Length; i++) if (a.ChMax(others[i])) idx = i; return idx; }
+  [MI(R256)] public static bool ChMax<T, U>(this Dictionary<T, U> d, T k, U v) where U : struct, IComparable<U> { if (d.TryGetValue(k, out var x) && x.CompareTo(v) > 0) return false; d[k] = v; return true; }
   [MI(R256)] public static bool ChMin<T>(this ref T a, T b) where T : struct, IComparable<T> { if (a.CompareTo(b) > 0) { a = b; return true; } return false; }
   [MI(R256)] public static int ChMin<T>(this ref T a, params T[] others) where T : struct, IComparable<T> { int idx = -1; for (int i = 0; i < others.Length; i++) if (a.ChMin(others[i])) idx = i; return idx; }
+  [MI(R256)] public static bool ChMin<T, U>(this Dictionary<T, U> d, T k, U v) where U : struct, IComparable<U> { if (d.TryGetValue(k, out var x) && x.CompareTo(v) < 0) return false; d[k] = v; return true; }
   [MI(R256)] public static long nCr(int n, int r) { if (r < 0 || n < r) return 0; if (n - r < r) r = n - r; long x = 1; for (int i = 1; i <= r; i++) x = x * (n - i + 1) / i; return x; }
   [MI(R256)] public static long nPr(long n, int r) { if (r < 0 || n < r) return 0; long x = 1; while (n > r) x *= n--; return x; }
   [MI(R256)] public static T Pown<T>(T @base, uint exp) where T : IBinaryInteger<T> { T res = T.One; while (exp > 0) { if ((exp & 1) == 1) res *= @base; @base *= @base; exp >>>= 1; } return res; }
   [MI(R256)] public static bigint Pown(bigint @base, uint exp, bigint mod) { bigint res = 1; @base = (@base % mod + mod) % mod; while (exp > 0) { if ((exp & 1) == 1) res = res * @base % mod; @base = @base * @base % mod; exp >>>= 1; } return res; }
-  [MI(R256)] public static int DivCeil(int dividend, int divisor) => (dividend + divisor - 1) / divisor;
-  [MI(R256)] public static long DivCeil(long dividend, long divisor) => (dividend + divisor - 1) / divisor;
-  [MI(R256)] public static int RangeSum(int min, int max) => (max - min + 1) * (min + max) / 2;
-  [MI(R256)] public static long RangeSum(long min, long max) => (max - min + 1) * (min + max) / 2;
-  [MI(R256)] public static long Gcd(long a, long b) { while (b != 0) (a, b) = (b, a % b); return a; }
-  [MI(R256)] public static long Lcm(long a, long b) => a / Gcd(a, b) * b;
+  [MI(R256)] public static T DivFloor<T>(T x, T y) where T : INumberBase<T> => T.IsPositive(x) == T.IsPositive(y) ? T.Abs(x) / T.Abs(y) : -(T.Abs(x) + T.Abs(y) - T.One) / T.Abs(y);
+  [MI(R256)] public static T DivCeil<T>(T x, T y) where T : INumberBase<T> => T.IsPositive(x) == T.IsPositive(y) ? (T.Abs(x) + T.Abs(y) - T.One) / T.Abs(y) : -(T.Abs(x) / T.Abs(y));
+  [MI(R256)] public static T RangeSum<T>(T minIncl, T maxIncl) where T : IBinaryInteger<T> { T l = maxIncl - minIncl + T.One, r = minIncl + maxIncl; if (T.IsEvenInteger(l)) l >>= 1; else r >>= 1; return l * r; }
+  [MI(R256)] public static T Gcd<T>(T a, T b) where T : IBinaryInteger<T> { while (b != T.One) (a, b) = (b, a % b); return a; }
+  [MI(R256)] public static T Lcm<T>(T a, T b) where T : IBinaryInteger<T> => a / Gcd(a, b) * b;
   [MI(R256)] public static Span<T> AsSpan<T>(this T[,] array) => MemoryMarshal.CreateSpan(ref array[0, 0], array.Length);
   [MI(R256)] public static Span<T> AsSpan<T>(this T[,,] array) => MemoryMarshal.CreateSpan(ref array[0, 0, 0], array.Length);
   [MI(R256)] public static Span<T> AsSpan<T>(this List<T> list) => CollectionsMarshal.AsSpan(list);
@@ -108,15 +109,16 @@ public static partial class MyLib {
   [MI(R256)] public static IEnumerable<T> PopRange<T>(this List<T> list, Range rng) { var (off, len) = rng.GetOffsetAndLength(list.Count); var res = list.GetRange(off, len); list.RemoveRange(off, len); return res; }
 #if DEBUG
   public const bool DEBUG = true;
+  public const short R256 = 0, R512 = 0;
 #else
   public const bool DEBUG = false;
+  public const short R256 = 256, R512 = 512;
 #endif
 #if ATCODER
   public const bool ATCODER = true;
 #else
   public const bool ATCODER = false;
 #endif
-  public const short R256 = DEBUG ? 0 : 256, R512 = DEBUG ? 0 : 512;
 }
 
 public class CIn {
@@ -147,18 +149,19 @@ public class COut : StreamWriter {
 
 public readonly record struct P(int X, int Y) : IEquatable<P> {
   [MI(R256)] public static implicit operator P((int X, int Y) t) => new(t.X, t.Y);
+  public static P Zero { [MI(R256)] get => (0, 0); }
   [MI(R256)] public static P operator +(P a, P b) => (a.X + b.X, a.Y + b.Y);
   [MI(R256)] public static P operator -(P a, P b) => (a.X - b.X, a.Y - b.Y);
   [MI(R256)] public static P operator *(P a, int b) => (a.X * b, a.Y * b);
   [MI(R256)] public static P operator /(P a, int b) => (a.X / b, a.Y / b);
-  [MI(R256)] public readonly bool InClosed(int min_x, int max_x, int min_y, int max_y) => min_x <= this.X && this.X <= max_x && min_y <= this.Y && this.Y <= max_y;
-  [MI(R256)] public readonly bool InClosed(P a, P b) => Min(a.X, b.X) <= this.X && this.X <= Max(a.X, b.X) && Min(a.Y, b.Y) <= this.Y && this.Y <= Max(a.Y, b.Y);
-  [MI(R256)] public readonly double DistE(P p) { double dx = (double)this.X - p.X, dy = (double)this.Y - p.Y; return Math.Sqrt(dx * dx + dy * dy); }
-  [MI(R256)] public readonly long DistE2(P p) { long dx = (long)this.X - p.X, dy = (long)this.Y - p.Y; return dx * dx + dy * dy; }
-  [MI(R256)] public readonly long DistM(P p) => Math.Abs((long)this.X - p.X) + Math.Abs((long)this.Y - p.Y);
-  [MI(R256)] public override readonly string ToString() => this.X.ToString() + " " + this.Y.ToString();
-  [MI(R256)] public readonly string ToString(string pre, string sep, string post) => pre + this.X.ToString() + sep + this.Y.ToString() + post;
-  [MI(R256)] public override readonly int GetHashCode() => base.GetHashCode();
+  [MI(R256)] public bool InClosed(int min_x, int max_x, int min_y, int max_y) => min_x <= this.X && this.X <= max_x && min_y <= this.Y && this.Y <= max_y;
+  [MI(R256)] public bool InClosed(P a, P b) => Min(a.X, b.X) <= this.X && this.X <= Max(a.X, b.X) && Min(a.Y, b.Y) <= this.Y && this.Y <= Max(a.Y, b.Y);
+  [MI(R256)] public double DistE(P p) { double dx = (double)this.X - p.X, dy = (double)this.Y - p.Y; return Math.Sqrt(dx * dx + dy * dy); }
+  [MI(R256)] public long DistE2(P p) { long dx = (long)this.X - p.X, dy = (long)this.Y - p.Y; return dx * dx + dy * dy; }
+  [MI(R256)] public long DistM(P p) => Math.Abs((long)this.X - p.X) + Math.Abs((long)this.Y - p.Y);
+  [MI(R256)] public override string ToString() => this.X.ToString() + " " + this.Y.ToString();
+  [MI(R256)] public string ToString(string pre, string sep, string post) => pre + this.X.ToString() + sep + this.Y.ToString() + post;
+  [MI(R256)] public override int GetHashCode() => base.GetHashCode();
 }
 
 #endregion

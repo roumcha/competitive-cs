@@ -161,7 +161,8 @@ public readonly record struct P(int X, int Y) : IEquatable<P> {
   [MI(R256)] public long DistM(P p) => Math.Abs((long)this.X - p.X) + Math.Abs((long)this.Y - p.Y);
   [MI(R256)] public override string ToString() => this.X.ToString() + " " + this.Y.ToString();
   [MI(R256)] public string ToString(string pre, string sep, string post) => pre + this.X.ToString() + sep + this.Y.ToString() + post;
-  [MI(R256)] public override int GetHashCode() => base.GetHashCode();
+  [MI(R256)] public long Pack() => ((long)this.X << 32) + this.Y;
+  [MI(R256)] public static P Unpack(long a) => ((int)(a >> 32), (int)(a & ((1L << 32) - 1)));
 }
 
 #endregion

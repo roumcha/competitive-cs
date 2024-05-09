@@ -82,7 +82,7 @@ public static partial class MyLib {
   [MI(R256)] public static T DivFloor<T>(T x, T y) where T : INumberBase<T> => T.IsPositive(x) == T.IsPositive(y) ? T.Abs(x) / T.Abs(y) : -(T.Abs(x) + T.Abs(y) - T.One) / T.Abs(y);
   [MI(R256)] public static T DivCeil<T>(T x, T y) where T : INumberBase<T> => T.IsPositive(x) == T.IsPositive(y) ? (T.Abs(x) + T.Abs(y) - T.One) / T.Abs(y) : -(T.Abs(x) / T.Abs(y));
   [MI(R256)] public static T RangeSum<T>(T minIncl, T maxIncl) where T : IBinaryInteger<T> { T l = maxIncl - minIncl + T.One, r = minIncl + maxIncl; if (T.IsEvenInteger(l)) l >>= 1; else r >>= 1; return l * r; }
-  [MI(R256)] public static T Gcd<T>(T a, T b) where T : IBinaryInteger<T> { while (b != T.One) (a, b) = (b, a % b); return a; }
+  [MI(R256)] public static T Gcd<T>(T a, T b) where T : IBinaryInteger<T> { while (T.IsZero(b)) (a, b) = (b, a % b); return a; }
   [MI(R256)] public static T Lcm<T>(T a, T b) where T : IBinaryInteger<T> => a / Gcd(a, b) * b;
   [MI(R256)] public static Span<T> AsSpan<T>(this T[,] array) => MemoryMarshal.CreateSpan(ref array[0, 0], array.Length);
   [MI(R256)] public static Span<T> AsSpan<T>(this T[,,] array) => MemoryMarshal.CreateSpan(ref array[0, 0, 0], array.Length);

@@ -1,4 +1,4 @@
-public static class _Iota {
+public static partial class Mylib {
   public static void Iota<T>(Span<T> span, T start)
     where T : unmanaged, IBinaryNumber<T>
       => Iota(span, start, T.One);

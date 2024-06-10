@@ -1,5 +1,5 @@
 static class Memo {
-  [MI(256)]
+  [MI(R256)]
   public static Func<T, R> Memoize<T, R>(Func<T, R> f) {
     var m = new Dictionary<T, R>();
     return (T x) => {
@@ -7,7 +7,7 @@ static class Memo {
     };
   }
 
-  [MI(256)]
+  [MI(R256)]
   public static Func<T, U, R> Memoize<T, U, R>(Func<T, U, R> f) {
     var m = new Dictionary<(T, U), R>();
     return (T x, U y) => {
@@ -16,7 +16,7 @@ static class Memo {
     };
   }
 
-  [MI(256)]
+  [MI(R256)]
   public static Func<T, U, V, R> Memoize<T, U, V, R>(
     Func<T, U, V, R> f) {
     var m = new Dictionary<(T, U, V), R>();

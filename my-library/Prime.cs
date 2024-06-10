@@ -1,7 +1,7 @@
 static class PrimeNumber {
   /// <summary>素数か否か</summary>
   /// <remarks>O(√N)</remarks>
-  [MI(256)]
+  [MI(R256)]
   public static bool IsPrime(uint n) {
     if (n == 0) throw new ArgumentOutOfRangeException(nameof(n), "input must not be 0");
     if ((n & 1) == 0 || n <= 2) return n == 2;

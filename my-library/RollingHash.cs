@@ -24,7 +24,7 @@ class RollingHash1<T> where T : RollingHashConsts {
     }
   }
 
-  [MI(256)]
+  [MI(R256)]
   public long Get(int l, int r) {
     Debug.Assert(l <= r);
     var res = Hash[r] - Hash[l] * Pow[r - l] % C.Mod;
@@ -32,7 +32,7 @@ class RollingHash1<T> where T : RollingHashConsts {
   }
 
   public long this[Range a] {
-    [MI(256)]
+    [MI(R256)]
     get {
       int l = a.Start.IsFromEnd ? N - a.Start.Value : a.Start.Value;
       int r = a.End.IsFromEnd ? N - a.End.Value : a.End.Value;
@@ -40,7 +40,7 @@ class RollingHash1<T> where T : RollingHashConsts {
     }
   }
 
-  [MI(256)]
+  [MI(R256)]
   public int Lcp(int l1, int l2) {
     int len = Math.Min(N - l1 + 1, N - l2 + 1);
     Debug.Assert(len >= 0);
@@ -53,7 +53,7 @@ class RollingHash1<T> where T : RollingHashConsts {
     return low;
   }
 
-  [MI(256)]
+  [MI(R256)]
   public static int Lcp(
     RollingHash1<T> h1, int l1, RollingHash1<T> h2, int l2
   ) {
@@ -81,6 +81,6 @@ public interface RollingHashConsts {
 }
 
 public struct RollingHashDefaults : RollingHashConsts {
-  public uint Base { [MI(256)] get { return 1007; } }
-  public uint Mod { [MI(256)] get { return 1000000007; } }
+  public uint Base { [MI(R256)] get { return 1007; } }
+  public uint Mod { [MI(R256)] get { return 1000000007; } }
 }

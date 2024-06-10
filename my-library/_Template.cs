@@ -1,6 +1,6 @@
 namespace template;
 #pragma warning disable format, CS8981
-using static MyLib; using static AlgoLib; using static HeuLib; using AtCoder; using AtCoder.Extension; using MathNet.Numerics; using System.Collections; using System.Collections.ObjectModel; using System.Diagnostics; using System.Globalization; using System.Numerics; using System.Runtime.CompilerServices; using System.Runtime.InteropServices; using System.Runtime.Intrinsics; using System.Text; using System.Threading; using static System.Math; using MI = System.Runtime.CompilerServices.MethodImplAttribute; using bigint = System.Numerics.BigInteger;
+using static MyLib; using static AlgoLib; using static HeuLib; using AtCoder; using AtCoder.Extension; using MathNet.Numerics; using System.Collections; using System.Collections.ObjectModel; using System.Diagnostics; using System.Globalization; using System.Numerics; using System.Runtime.CompilerServices; using System.Runtime.InteropServices; using System.Runtime.Intrinsics; using System.Text; using static System.Math; using MI = System.Runtime.CompilerServices.MethodImplAttribute; using bigint = System.Numerics.BigInteger;
 #pragma warning restore format
 
 
@@ -23,18 +23,16 @@ public static class AlgoLib {
 
 public static class HeuLib {
   public const long TL = 1950;
-  static readonly Stopwatch s_clock = new();
+  public static readonly long StartupTime = Stopwatch.GetTimestamp();
   public static readonly Random Rng = new();
 
-  [MI(R256)] public static int GetTime() => (int)s_clock.ElapsedMilliseconds;
+  [MI(R256)] public static int GetTime() => (int)((Stopwatch.GetTimestamp() - StartupTime) * 1000 / Stopwatch.Frequency);
 
   [MI(R256)] public static int RandRange(this Random Rng, int maxExclusive) => (int)(((long)Rng.Next() * maxExclusive) >> 31);
 
   [MI(R256)] public static void Log(this COut @out, string s) => @out.WriteLine($"[{GetTime():D4}ms] " + s);
 
   public static void Main() {
-    s_clock.Start();
-
     cerr.Log($"Start.");
 
     Console.SetOut(cout);
@@ -49,7 +47,6 @@ public static class HeuLib {
     }
 
     cout.Flush();
-    cerr.Flush();
     cerr.Log($"Complete.");
     cerr.Flush();
   }
@@ -76,7 +73,7 @@ public static partial class MyLib {
   [MI(R256)] public static int ChMin<T>(this ref T a, params T[] others) where T : struct, IComparable<T> { int idx = -1; for (int i = 0; i < others.Length; i++) if (a.ChMin(others[i])) idx = i; return idx; }
   [MI(R256)] public static bool ChMin<T, U>(this Dictionary<T, U> d, T k, U v) where U : struct, IComparable<U> { if (d.TryGetValue(k, out var x) && x.CompareTo(v) < 0) return false; d[k] = v; return true; }
   [MI(R256)] public static long nCr(int n, int r) { if (r < 0 || n < r) return 0; if (n - r < r) r = n - r; long x = 1; for (int i = 1; i <= r; i++) x = x * (n - i + 1) / i; return x; }
-  [MI(R256)] public static long nPr(long n, int r) { if (r < 0 || n < r) return 0; long x = 1; while (n > r) x *= n--; return x; }
+  [MI(R256)] public static long nPr(long n, int r) { if (r < 0 || n < r) return 0; long x = 1; while (r-- > 0) x *= n--; return x; }
   [MI(R256)] public static T Pown<T>(T @base, uint exp) where T : IBinaryInteger<T> { T res = T.One; while (exp > 0) { if ((exp & 1) == 1) res *= @base; @base *= @base; exp >>>= 1; } return res; }
   [MI(R256)] public static bigint Pown(bigint @base, uint exp, bigint mod) { bigint res = 1; @base = (@base % mod + mod) % mod; while (exp > 0) { if ((exp & 1) == 1) res = res * @base % mod; @base = @base * @base % mod; exp >>>= 1; } return res; }
   [MI(R256)] public static T DivFloor<T>(T x, T y) where T : INumberBase<T> => T.IsPositive(x) == T.IsPositive(y) ? T.Abs(x) / T.Abs(y) : -(T.Abs(x) + T.Abs(y) - T.One) / T.Abs(y);
@@ -122,6 +119,7 @@ public static partial class MyLib {
 #endif
 }
 
+
 public class CIn {
   public CIn(Stream stream) { _stream = stream; }
   readonly Stream _stream; readonly byte[] _buffer = new byte[1024]; int _len, _ptr; bool _end; public bool End { [MI(R256)] get => _end; }
@@ -138,6 +136,7 @@ public class CIn {
   public bigint b { [MI(R256)] get => bigint.Parse(this.s, CultureInfo.InvariantCulture); }
 }
 
+
 public class COut : StreamWriter {
   public override IFormatProvider FormatProvider { [MI(R256)] get => CultureInfo.InvariantCulture; }
   public COut(Stream stream) : base(stream, new UTF8Encoding(false, true)) { }
@@ -147,6 +146,7 @@ public class COut : StreamWriter {
   [MI(R256)] public void Print2D(char[,] array) { var span = MemoryMarshal.CreateReadOnlySpan(ref array[0, 0], array.Length); int h = array.GetLength(0), w = array.GetLength(1); for (int i = 0; i < h; i++) this.WriteLine(new string(span[(i * w)..((i + 1) * w)])); }
   [MI(R256)] public void Print2D<T>(T[,] array) { int h = array.GetLength(0), w = array.GetLength(1); for (int i = 0; i < h; i++) { var sb = new StringBuilder(2 * w); for (int j = 0; j < w; j++) { sb.Append(array[i, j]); if (j < w - 1) sb.Append(' '); } this.WriteLine(sb); } }
 }
+
 
 public readonly record struct P(int X, int Y) : IEquatable<P> {
   [MI(R256)] public static implicit operator P((int X, int Y) t) => new(t.X, t.Y);

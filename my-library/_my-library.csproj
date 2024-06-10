@@ -10,6 +10,7 @@
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <InvariantGlobalization>true</InvariantGlobalization>
     <RootNamespace>template</RootNamespace>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
   <ItemGroup>

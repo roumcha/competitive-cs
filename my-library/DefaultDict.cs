@@ -1,4 +1,4 @@
-class DefaultDict<K, V> : Dictionary<K, V> {
+public class DefaultDict<K, V> : Dictionary<K, V> {
   Func<V> _d = () => default(V);
   [MI(R256)] public DefaultDict() : base() { }
   [MI(R256)] public DefaultDict(int cap) : base(cap) { }

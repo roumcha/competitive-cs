@@ -1,4 +1,4 @@
-static class Combination {
+public static class Combination {
   public static T[,] PascalsTriangle<T>(int maxIncl) where T : INumberBase<T> {
     var res = new T[maxIncl + 1, maxIncl + 1];
     res[0, 0] = T.One;

@@ -1,4 +1,4 @@
-static class Memo {
+public static class Memo {
   [MI(R256)]
   public static Func<T, R> Memoize<T, R>(Func<T, R> f) {
     var m = new Dictionary<T, R>();

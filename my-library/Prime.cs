@@ -1,4 +1,4 @@
-static class PrimeNumber {
+public static class PrimeNumber {
   /// <summary>素数か否か</summary>
   /// <remarks>O(√N)</remarks>
   [MI(R256)]
@@ -57,7 +57,7 @@ static class PrimeNumber {
 }
 
 /// <summary>前計算あり・なしの素因数分解</summary>
-class PrimeFactorizer {
+public class PrimeFactorizer {
   readonly uint[] _spfs;
 
   /// <remarks>O(N log log N)</remarks>

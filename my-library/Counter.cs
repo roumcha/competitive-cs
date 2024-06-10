@@ -1,4 +1,4 @@
-class MultiCounter<T> : Dictionary<T, long> {
+public class MultiCounter<T> : Dictionary<T, long> {
   public bool RemoveZeros { get; init; } = true;
   [MI(R256)] public MultiCounter() { }
   [MI(R256)] public MultiCounter(int cap) : base(cap) { }

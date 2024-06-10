@@ -1,4 +1,4 @@
-static class Seq {
+public static class Seq {
   /// <remarks>O(L) where L is src's Length</remarks>
   [MI(R256)]
   public static IEnumerable<(T Item, int Cnt)> RunLengthEncode<T>(

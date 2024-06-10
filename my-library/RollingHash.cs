@@ -6,11 +6,11 @@
 
 // 参考: drken1215/algorithm
 
-class RollingHashFast {
+public class RollingHashFast {
 
 }
 
-class RollingHash1<T> where T : RollingHashConsts {
+public class RollingHash1<T> where T : RollingHashConsts {
   int N; long[] Hash, Pow; static T C = default(T);
 
   [MI(512)]
@@ -69,7 +69,7 @@ class RollingHash1<T> where T : RollingHashConsts {
   }
 }
 
-class RollingHash2<T, U>
+public class RollingHash2<T, U>
   where T : RollingHashConsts where U : RollingHashConsts {
   int N; long[] Hash1, Hash2, Pow1, Pow2; static T C = default(T);
 

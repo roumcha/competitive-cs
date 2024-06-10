@@ -1,4 +1,4 @@
-static class Cycle {
+public static class Cycle {
   [MI(R256)]
   public static List<int> FindCycle(int n, List<int>[] nexts, int start) {
     var res = new List<int>();

@@ -10,8 +10,8 @@ public class TemplateTest1(ITestOutputHelper _output) {
   [InlineData(1, 1, 1)]
   [InlineData(5, 2, 10)]
   [InlineData(61, 30, 232714176627630544)]
-  public void nCr_Valid(int n, int r, long res)
-  => Assert.Equal(res, nCr(n, r));
+  public void nCr_Valid(int n, int r, long expected)
+  => Assert.Equal(expected, nCr(n, r));
 
   [Theory]
   [InlineData(62, 30)]
@@ -23,8 +23,8 @@ public class TemplateTest1(ITestOutputHelper _output) {
   [InlineData(1, 1, 1)]
   [InlineData(5, 2, 20)]
   [InlineData(29, 14, 6761440164390912000)]
-  public void nPr_Valid(int n, int r, long res)
-    => Assert.Equal(nPr(n, r), res);
+  public void nPr_Valid(int n, int r, long expected)
+    => Assert.Equal(nPr(n, r), expected);
 
   [Theory]
   [InlineData(30, 14)]

@@ -1,5 +1,6 @@
 namespace my_library_tests;
 
+using System.Diagnostics;
 using FluentAssertions;
 using template;
 using Xunit.Abstractions;
@@ -57,7 +58,7 @@ public class PrimeNumberTest(ITestOutputHelper _output) {
   }
 }
 
-public class PrimeFactorizerTest {
+public class PrimeFactorizerTest(ITestOutputHelper _output) {
   [Theory]
   [InlineData(8)]
   public void Pfer_Valid(uint maxIncl) {
@@ -106,5 +107,16 @@ public class PrimeFactorizerTest {
   public void Factorize_OutOfRange() {
     var func = () => PrimeFactorizer.Factorize(1);
     func.Should().Throw<ArgumentOutOfRangeException>();
+  }
+
+  [Fact]
+  public void Factorize_Compare() {
+    var pfer = new PrimeFactorizer(100005);
+    var t0 = Stopwatch.GetTimestamp();
+    for (uint i = 10000; i <= 100005; i++) pfer.FactorizeFast(i);
+    var t1 = Stopwatch.GetTimestamp();
+    for (uint i = 10000; i <= 100005; i++) PrimeFactorizer.Factorize(i);
+    var t2 = Stopwatch.GetTimestamp();
+    (t1 - t0).Should().BeLessThan(t2 - t1);
   }
 }

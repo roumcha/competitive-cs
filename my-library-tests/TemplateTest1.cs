@@ -1,3 +1,5 @@
+// ログあり: dotnet test --logger "console;verbosity=detailed"
+
 namespace my_library_tests;
 
 using template;

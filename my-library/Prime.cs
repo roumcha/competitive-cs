@@ -101,7 +101,7 @@ public class PrimeFactorizer {
     if (two_cnt > 0) res.Add((2, (uint)two_cnt));
 
     // 3以上
-    for (ulong i = 3; i * i < n; i += 2) {
+    for (ulong i = 3; i * i <= n; i += 2) {
       uint cnt = 0;
       while (DivRem(n, i) is (var div, 0)) { n = div; cnt++; }
       if (cnt > 0) res.Add((i, cnt));

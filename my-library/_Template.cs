@@ -2,6 +2,7 @@ namespace template;
 #pragma warning disable format, CS8981
 using static MyLib; using static AlgoLib; using static HeuLib; using AtCoder; using AtCoder.Extension; using MathNet.Numerics; using System.Collections; using System.Collections.ObjectModel; using System.Diagnostics; using System.Globalization; using System.Numerics; using System.Runtime.CompilerServices; using System.Runtime.InteropServices; using System.Runtime.Intrinsics; using System.Text; using static System.Math; using MI = System.Runtime.CompilerServices.MethodImplAttribute; using bigint = System.Numerics.BigInteger;
 #pragma warning restore format
+// using mint = AtCoder.StaticModInt<AtCoder.Mod>;
 
 
 public static class Program {

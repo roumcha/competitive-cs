@@ -61,8 +61,6 @@ public static partial class MyLib {
   public static readonly CIn cin = new(Console.OpenStandardInput());
   public static readonly COut cout = new(Console.OpenStandardOutput()) { AutoFlush = DEBUG ? false : false };
   public static readonly COut cerr = new(Console.OpenStandardError()) { AutoFlush = DEBUG ? true : true };
-  public static readonly ReadOnlyCollection<P> Dir4 = new P[] { (0, 1), (1, 0), (0, -1), (-1, 0), }.AsReadOnly();
-  public static readonly ReadOnlyCollection<P> Dir8 = new P[] { (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), }.AsReadOnly();
   [MI(R256)] public static T Identity<T>(T x) => x;
   [MI(R256)] public static void Swap<T>(ref T a, ref T b) => (a, b) = (b, a);
   [MI(R256)] public static bool Change<T>(this ref T a, T b) where T : struct, IEquatable<T> { if (a.Equals(b)) return false; else { a = b; return true; } }
@@ -148,22 +146,23 @@ public class COut : StreamWriter {
 }
 
 
-public readonly record struct P(int X, int Y) : IEquatable<P> {
-  [MI(R256)] public static implicit operator P((int X, int Y) t) => new(t.X, t.Y);
-  public static P Zero { [MI(R256)] get => (0, 0); }
-  [MI(R256)] public static P operator +(P a, P b) => (a.X + b.X, a.Y + b.Y);
-  [MI(R256)] public static P operator -(P a, P b) => (a.X - b.X, a.Y - b.Y);
-  [MI(R256)] public static P operator *(P a, int b) => (a.X * b, a.Y * b);
-  [MI(R256)] public static P operator /(P a, int b) => (a.X / b, a.Y / b);
-  [MI(R256)] public bool InClosed(int min_x, int max_x, int min_y, int max_y) => min_x <= this.X && this.X <= max_x && min_y <= this.Y && this.Y <= max_y;
-  [MI(R256)] public bool InClosed(P a, P b) => Min(a.X, b.X) <= this.X && this.X <= Max(a.X, b.X) && Min(a.Y, b.Y) <= this.Y && this.Y <= Max(a.Y, b.Y);
-  [MI(R256)] public double DistE(P p) { double dx = (double)this.X - p.X, dy = (double)this.Y - p.Y; return Math.Sqrt(dx * dx + dy * dy); }
-  [MI(R256)] public long DistE2(P p) { long dx = (long)this.X - p.X, dy = (long)this.Y - p.Y; return dx * dx + dy * dy; }
-  [MI(R256)] public long DistM(P p) => Math.Abs((long)this.X - p.X) + Math.Abs((long)this.Y - p.Y);
+public readonly record struct P<T>(T X, T Y) : IEquatable<P<T>> where T : INumber<T> {
+  [MI(R256)] public static implicit operator P<T>((T X, T Y) t) => new(t.X, t.Y);
+  [MI(R256)] public void Deconstruct(out T X, out T Y) { X = this.X; Y = this.Y; }
+  public static P<T> Zero { [MI(R256)] get => (T.Zero, T.Zero); }
+  [MI(R256)] public static P<T> operator +(P<T> a, P<T> b) => (a.X + b.X, a.Y + b.Y);
+  [MI(R256)] public static P<T> operator -(P<T> a, P<T> b) => (a.X - b.X, a.Y - b.Y);
+  [MI(R256)] public static P<T> operator *(P<T> a, T b) => (a.X * b, a.Y * b);
+  [MI(R256)] public static P<T> operator /(P<T> a, T b) => (a.X / b, a.Y / b);
+  [MI(R256)] public bool InInterval(P<T> ulIncl, P<T> drExcl) => ulIncl.X <= this.X && this.X < drExcl.X && ulIncl.Y <= this.Y && this.Y < drExcl.Y;
+  [MI(R256)] public bool InClosedInterval(P<T> a, P<T> b) => T.Min(a.X, b.X) <= this.X && this.X <= T.Max(a.X, b.X) && T.Min(a.Y, b.Y) <= this.Y && this.Y <= T.Max(a.Y, b.Y);
+  [MI(R256)] public static IEnumerable<P<T>> Range(P<T> drExcl) { for (T i = T.Zero; i < drExcl.X; i++) { for (T j = T.Zero; j < drExcl.Y; j++) yield return new(i, j); } }
+  [MI(R256)] public T DistE2(P<T> p) { T dx = this.X - p.X, dy = this.Y - p.Y; return dx * dx + dy * dy; }
+  [MI(R256)] public T DistM(P<T> p) => T.Abs(this.X - p.X) + T.Abs(this.Y - p.Y);
   [MI(R256)] public override string ToString() => this.X.ToString() + " " + this.Y.ToString();
   [MI(R256)] public string ToString(string pre, string sep, string post) => pre + this.X.ToString() + sep + this.Y.ToString() + post;
-  [MI(R256)] public long Pack() => ((long)this.X << 32) + this.Y;
-  [MI(R256)] public static P Unpack(long a) => ((int)(a >> 32), (int)(a & ((1L << 32) - 1)));
+  public static readonly ReadOnlyCollection<P<T>> Dir4 = new P<T>[] { (T.Zero, T.One), (T.One, T.Zero), (T.Zero, -T.One), (-T.One, T.Zero), }.AsReadOnly();
+  public static readonly ReadOnlyCollection<P<T>> Dir8 = new P<T>[] { (T.Zero, T.One), (T.One, T.One), (T.One, T.Zero), (T.One, -T.One), (T.Zero, -T.One), (-T.One, -T.One), (-T.One, T.Zero), (-T.One, T.One), }.AsReadOnly();
 }
 
 #endregion

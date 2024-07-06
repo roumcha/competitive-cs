@@ -2,29 +2,20 @@ public static class Memo {
   [MI(R256)]
   public static Func<T, R> Memoize<T, R>(Func<T, R> f) {
     var m = new Dictionary<T, R>();
-    return (T x) => {
-      R p; return m.TryGetValue(x, out p) ? p : m[x] = f(x);
-    };
+    return (T x) => m.TryGetValue(x, out R p) ? p : m[x] = f(x);
   }
 
   [MI(R256)]
   public static Func<T, U, R> Memoize<T, U, R>(Func<T, U, R> f) {
     var m = new Dictionary<(T, U), R>();
-    return (T x, U y) => {
-      R p;
-      return m.TryGetValue((x, y), out p) ? p : m[(x, y)] = f(x, y);
-    };
+    return (T x, U y) => m.TryGetValue((x, y), out R p) ? p : m[(x, y)] = f(x, y);
   }
 
   [MI(R256)]
   public static Func<T, U, V, R> Memoize<T, U, V, R>(
     Func<T, U, V, R> f) {
     var m = new Dictionary<(T, U, V), R>();
-    return (T x, U y, V z) => {
-      R p;
-      return m.TryGetValue((x, y, z), out p) ? p
-        : m[(x, y, z)] = f(x, y, z);
-    };
+    return (T x, U y, V z) => m.TryGetValue((x, y, z), out R p) ? p : m[(x, y, z)] = f(x, y, z);
   }
 }
 

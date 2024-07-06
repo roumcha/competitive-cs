@@ -50,6 +50,6 @@
   },
   "Memoize": {
     "prefix": "memo",
-    "body": "static readonly Func<${2:int},${3:int}> ${1:F}_Memo = Memoize<${2:int},${3: in}t>(${1:F});"
+    "body": "static readonly Func<${2:T},${3:R}> ${1:F}_Memo = Memoize<${2:T},${3: R}>(${1:F});"
   }
 }

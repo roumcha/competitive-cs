@@ -104,6 +104,7 @@ public static partial class MyLib {
   [MI(R256)] public static T PopLast<T>(this List<T> list) { T res = list[^1]; list.RemoveAt(list.Count - 1); return res; }
   [MI(R256)] public static (bool Success, T Item) TryPopLast<T>(this List<T> list) => list.Count == 0 ? (false, default) : (true, list.PopLast());
   [MI(R256)] public static IEnumerable<T> PopRange<T>(this List<T> list, Range rng) { var (off, len) = rng.GetOffsetAndLength(list.Count); var res = list.GetRange(off, len); list.RemoveRange(off, len); return res; }
+  [MI(R256)] public static Func<T, R> Memoize<T, R>(Func<T, R> f) { var m = new Dictionary<T, R>(); return (T x) => m.TryGetValue(x, out R p) ? p : m[x] = f(x); }
 #if DEBUG
   public const bool DEBUG = true;
   public const short R256 = 0, R512 = 0;

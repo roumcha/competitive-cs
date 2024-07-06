@@ -1,14 +1,11 @@
 {
+  "FileName": {
+    "prefix": "filename",
+    "body": "$TM_FILENAME_BASE"
+  },
   "Console.ReadLine": {
     "prefix": "cr",
     "body": "Console.ReadLine()"
-  },
-  "Console Multiple Read": {
-    "prefix": "cr-map",
-    "body": [
-      "Console.ReadLine().Split()",
-      ".Select(${1:int.Parse})${0:\n.ToArray()}"
-    ]
   },
   "Console WriteLine (No Sys)": {
     "prefix": "cw",
@@ -18,10 +15,6 @@
     "prefix": "ew",
     "body": "Console.Error.WriteLine($0)"
   },
-  "Array Separation": {
-    "prefix": "var-sep",
-    "body": "var ${1:n} = ${2:arr}[${0:0}];"
-  },
   "For (No Braces)": {
     "prefix": "for",
     "body": "for (${2:int ${1:i} = 0}; ${3:${1:i} < n}; ${4:${1:i}++}) $0"
@@ -29,20 +22,20 @@
   "For2": {
     "prefix": "for2",
     "body": [
-      "for (${2:int ${1:i} = 0}; ${3:${1:i} < x}; ${4:${1:i}++})",
+      "for (${2:int ${1:i} = 0}; ${3:${1:i} < n}; ${4:${1:i}++})",
       "{",
-      "    for (${6:int ${5:j} = 0}; ${7:${5:j} < y}; ${8:${5:j}++}) $0",
+      "    for (${6:int ${5:j} = 0}; ${7:${5:j} < n}; ${8:${5:j}++}) $0",
       "}"
     ]
   },
   "For3": {
     "prefix": "for3",
     "body": [
-      "for (${2:int ${1:i} = 0}; ${3:${1:i} < x}; ${4:${1:i}++})",
+      "for (${2:int ${1:i} = 0}; ${3:${1:i} < n}; ${4:${1:i}++})",
       "{",
-      "    for (${6:int ${5:j} = 0}; ${7:${5:j} < y}; ${8:${5:j}++})",
+      "    for (${6:int ${5:j} = 0}; ${7:${5:j} < n}; ${8:${5:j}++})",
       "    {",
-      "        for (${10:int ${9:k} = 0}; ${11:${9:k} < z}; ${12:${9:k}++}) $0",
+      "        for (${10:int ${9:k} = 0}; ${11:${9:k} < n}; ${12:${9:k}++}) $0",
       "    }",
       "}"
     ]
@@ -53,33 +46,10 @@
   },
   "ForEach (No Braces)": {
     "prefix": "foreach",
-    "body": "foreach (var ${1:item} in ${2:collection}) $0"
+    "body": "foreach (var ${2:item} in ${1:collection}) $0"
   },
-  "If DEBUG": {
-    "prefix": "if(debug)",
-    "body": "if (DEBUG) $0"
-  },
-  "NotImpl": {
-    "prefix": "notimpl",
-    "body": "throw new NotImplementedException()"
-  },
-  "尺取り法": {
-    "prefix": "syakutori",
-    "body": [
-      "int ${1:l} = 0, ${2:r} = 0;",
-      "while (${1:l} < ${3:n})",
-      "{",
-      "    if (${2:r} < ${3:n} && ${4:still})",
-      "    {",
-      "        $0",
-      "        ${2:r}++;",
-      "    }",
-      "    else",
-      "    {",
-      "        ",
-      "        ${1:l}++;",
-      "    }",
-      "}"
-    ]
+  "Memoize": {
+    "prefix": "memo",
+    "body": "static readonly Func<${2:int},${3:int}> ${1:F}_Memo = Memoize<${2:int},${3: in}t>(${1:F});"
   }
 }

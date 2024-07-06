@@ -11,5 +11,12 @@
     "editor.wordBasedSuggestions": "off"
   },
   "dotnetAcquisitionExtension.enableTelemetry": false,
-  "dotnet.codeLens.enableReferencesCodeLens": false
+  "dotnet.codeLens.enableReferencesCodeLens": false,
+  // Snippets
+  "files.associations": {
+    "snippets.jsonc": "snippets"
+  },
+  "[snippets]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

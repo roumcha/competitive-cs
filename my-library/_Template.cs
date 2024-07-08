@@ -159,7 +159,9 @@ public readonly record struct P<T>(T X, T Y) : IEquatable<P<T>> where T : INumbe
   [MI(R256)] public T DistM(P<T> p) => T.Abs(this.X - p.X) + T.Abs(this.Y - p.Y);
   [MI(R256)] public override string ToString() => this.X.ToString() + " " + this.Y.ToString();
   [MI(R256)] public string ToString(string pre, string sep, string post) => pre + this.X.ToString() + sep + this.Y.ToString() + post;
+  /// <summary>R, D, L, U</summary>
   public static readonly ReadOnlyCollection<P<T>> Dir4 = new P<T>[] { (T.Zero, T.One), (T.One, T.Zero), (T.Zero, -T.One), (-T.One, T.Zero), }.AsReadOnly();
+  /// <summary>R, RD, D, DL, L, LU, U, UR</summary>
   public static readonly ReadOnlyCollection<P<T>> Dir8 = new P<T>[] { (T.Zero, T.One), (T.One, T.One), (T.One, T.Zero), (T.One, -T.One), (T.Zero, -T.One), (-T.One, -T.One), (-T.One, T.Zero), (-T.One, T.One), }.AsReadOnly();
 }
 

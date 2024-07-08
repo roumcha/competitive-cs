@@ -83,16 +83,12 @@ public static partial class MyLib {
   [MI(R256)] public static Span<T> AsSpan<T>(this T[,] array) => MemoryMarshal.CreateSpan(ref array[0, 0], array.Length);
   [MI(R256)] public static Span<T> AsSpan<T>(this T[,,] array) => MemoryMarshal.CreateSpan(ref array[0, 0, 0], array.Length);
   [MI(R256)] public static Span<T> AsSpan<T>(this List<T> list) => CollectionsMarshal.AsSpan(list);
-  [MI(R256)] public static void Fill<T>(this T[,] array, T value) => array.AsSpan().Fill(value);
-  [MI(R256)] public static void Fill<T>(this T[,,] array, T value) => array.AsSpan().Fill(value);
   [MI(R256)] public static void Fill<T>(this IList<IList<T>> list, int length0, int length1, T v) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) list[i][j] = v; }
   [MI(R256)] public static void Fill<T>(this IList<IList<IList<T>>> list, int length0, int length1, int length2, T value) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) for (int k = 0; k < length2; ++k) list[i][j][k] = value; }
-  [MI(R256)] public static void Init<T>(this T[,] array, Func<int, int, T> generate) { int x = array.GetLength(0), y = array.GetLength(1); for (int i = 0; i < x; ++i) for (int j = 0; j < y; ++j) array[i, j] = generate(i, j); }
-  [MI(R256)] public static void Init<T>(this IList<IList<T>> list, int length0, int length1, Func<int, int, T> generate) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) list[i][j] = generate(i, j); }
-  [MI(R256)] public static void Init<T>(this T[,,] array, int length0, int length1, int length2, Func<int, int, int, T> generate) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) for (int k = 0; k < length2; ++k) array[i, j, k] = generate(i, j, k); }
-  [MI(R256)] public static void Init<T>(this IList<IList<IList<T>>> list, int length0, int length1, int length2, Func<int, int, int, T> generate) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) for (int k = 0; k < length2; ++k) list[i][j][k] = generate(i, j, k); }
+  [MI(R256)] public static void NewAll<T>(this IList<T> list) where T : new() { for (int i = 0; i < list.Count; i++) list[i] = new(); }
   [MI(R256)] public static T[,] Transpose<T>(this T[,] array) { var res = new T[array.GetLength(1), array.GetLength(0)]; for (int i = 0; i < array.GetLength(1); i++) for (int j = 0; j < array.GetLength(0); j++) res[i, j] = array[j, i]; return res; }
   [MI(R256)] public static T[,] Transpose<T>(this IList<IList<T>> list) { var res = new T[list[0].Count, list.Count]; for (int i = 0; i < list[0].Count; i++) for (int j = 0; j < list.Count; j++) res[i, j] = list[j][i]; return res; }
+  [MI(R256)] public static IEnumerable<T> ToEnumerable<T>(this ReadOnlySpan<T> span) { for (int i = 0; i < span.Length; i++) yield return span[i]; }
   [MI(R256)] public static Dictionary<TVal, int> CountBy<TKey, TVal>(this IEnumerable<TKey> seq, Func<TKey, TVal> func) where TVal : notnull { var dict = new Dictionary<TVal, int>(); foreach (var item in seq) { var key = func(item); dict[key] = dict.TryGetValue(key, out int count) ? count + 1 : 1; } return dict; }
   [MI(R256)] public static IEnumerable<U> Scan<T, U>(this IEnumerable<T> seq, U def, Func<U, T, U> func) { yield return def; foreach (var x in seq) { def = func(def, x); yield return def; } }
   [MI(R256)] public static IEnumerable<U> ScanBack<T, U>(this IEnumerable<T> seq, U def, Func<U, T, U> func) { yield return def; foreach (var x in seq.Reverse()) { def = func(def, x); yield return def; } }

@@ -17,7 +17,7 @@
   },
   "For (No Braces)": {
     "prefix": "for",
-    "body": "for (${2:int ${1:i} = 0}; ${3:${1:i} < n}; ${4:${1:i}++}) $0"
+    "body": "for (${2:int ${1:i} = 0}; ${3:${1:i} < n}; ${4:${1:i}++}) "
   },
   "For2": {
     "prefix": "for2",
@@ -42,14 +42,14 @@
   },
   "Forr (No Braces)": {
     "prefix": "forr",
-    "body": "for (${2:int ${1:i} = n - 1}; ${3:${1:i} >= 0}; ${4:${1:i}--}) $0"
+    "body": "for (${2:int ${1:i} = n - 1}; ${3:${1:i} >= 0}; ${4:${1:i}--}) "
   },
   "ForEach (No Braces)": {
     "prefix": "foreach",
-    "body": "foreach (var ${2:item} in ${1:collection}) $0"
+    "body": "foreach (var ${1:item} in ${2:collection}) "
   },
   "Memoize": {
     "prefix": "memo",
-    "body": "Func<${2:T},${3:R}> ${1:F}_Memo = Memoize<${2:T},${3: R}>(${1:F});"
+    "body": "Func<${2:T},${3:R}> ${1:F}_Memo = Memoize<${2:T},${3:R}>(${1:F});"
   }
 }

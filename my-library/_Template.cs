@@ -153,9 +153,11 @@ public readonly record struct P<T>(T X, T Y) : IEquatable<P<T>> where T : INumbe
   [MI(R256)] public static P<T> operator -(P<T> a, P<T> b) => (a.X - b.X, a.Y - b.Y);
   [MI(R256)] public static P<T> operator *(P<T> a, T b) => (a.X * b, a.Y * b);
   [MI(R256)] public static P<T> operator /(P<T> a, T b) => (a.X / b, a.Y / b);
+  [MI(R256)] public P<int> Signs() => (T.Sign(this.X), T.Sign(this.Y));
   [MI(R256)] public bool InInterval(P<T> ulIncl, P<T> drExcl) => ulIncl.X <= this.X && this.X < drExcl.X && ulIncl.Y <= this.Y && this.Y < drExcl.Y;
   [MI(R256)] public bool InClosedInterval(P<T> a, P<T> b) => T.Min(a.X, b.X) <= this.X && this.X <= T.Max(a.X, b.X) && T.Min(a.Y, b.Y) <= this.Y && this.Y <= T.Max(a.Y, b.Y);
   [MI(R256)] public static IEnumerable<P<T>> Range(P<T> drExcl) { for (T i = T.Zero; i < drExcl.X; i++) { for (T j = T.Zero; j < drExcl.Y; j++) yield return new(i, j); } }
+  public static IEnumerable<P<T>> Range(P<T> incl, P<T> excl) { T sx = excl.X > incl.X ? T.One : -T.One, sy = excl.Y > incl.Y ? T.One : -T.One; for (T i = incl.X; sx > T.Zero ? i < excl.X : i > excl.X; i += sx) for (T j = incl.Y; sy > T.Zero ? j < excl.Y : j > excl.Y; j += sy) yield return new(i, j); }
   [MI(R256)] public T DistE2(P<T> p) { T dx = this.X - p.X, dy = this.Y - p.Y; return dx * dx + dy * dy; }
   [MI(R256)] public T DistM(P<T> p) => T.Abs(this.X - p.X) + T.Abs(this.Y - p.Y);
   [MI(R256)] public override string ToString() => this.X.ToString() + " " + this.Y.ToString();

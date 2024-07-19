@@ -8,7 +8,7 @@ using template;
 using Xunit.Abstractions;
 using static template.MyLib;
 
-public class TemplateTest1(ITestOutputHelper _output) {
+public class TemplateTest_Math(ITestOutputHelper _output) {
   [Theory]
   [InlineData(-2, 0, 1)]
   [InlineData(-2, 1, -2)]

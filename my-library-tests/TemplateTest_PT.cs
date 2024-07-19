@@ -6,7 +6,7 @@ using template;
 using Xunit.Abstractions;
 using static template.MyLib;
 
-public class PTTest(ITestOutputHelper _output) {
+public class TemplateTest_PT(ITestOutputHelper _output) {
   [Fact]
   public void Construct_Valid() {
     P<int> p = (3, 4);

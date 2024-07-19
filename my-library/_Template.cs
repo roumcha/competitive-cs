@@ -16,7 +16,7 @@ public static class Program {
 
 
 #region library
-#pragma warning disable
+// #pragma warning disable
 public static class AlgoLib {
   public static void Main() { Console.SetOut(cout); Console.SetError(cerr); if (MANY_RECURSIONS) { Thread t = new(Program.main, 134217728); t.Start(); t.Join(); } else Program.main(); cout.Flush(); cerr.Flush(); }
 }
@@ -93,7 +93,7 @@ public static partial class MyLib {
   [MI(R256)] public static Dictionary<TVal, int> CountBy<TKey, TVal>(this IEnumerable<TKey> seq, Func<TKey, TVal> func) where TVal : notnull { var dict = new Dictionary<TVal, int>(); foreach (var item in seq) { var key = func(item); dict[key] = dict.TryGetValue(key, out int count) ? count + 1 : 1; } return dict; }
   [MI(R256)] public static IEnumerable<U> Scan<T, U>(this IEnumerable<T> seq, U def, Func<U, T, U> func) { yield return def; foreach (var x in seq) { def = func(def, x); yield return def; } }
   [MI(R256)] public static IEnumerable<U> ScanBack<T, U>(this IEnumerable<T> seq, U def, Func<U, T, U> func) { yield return def; foreach (var x in seq.Reverse()) { def = func(def, x); yield return def; } }
-  [MI(R256)] public static IEnumerable<(T, T)> Pairwise<T>(this IEnumerable<T> seq) where T : struct { var e = seq.GetEnumerator(); e.MoveNext(); T prev = e.Current; while (e.MoveNext()) yield return (prev, prev = e.Current); }
+  [MI(R256)] public static IEnumerable<(T Fst, T Snd)> Pairwise<T>(this IEnumerable<T> seq) where T : struct { var e = seq.GetEnumerator(); e.MoveNext(); T prev = e.Current; while (e.MoveNext()) yield return (prev, prev = e.Current); }
   [MI(R256)] public static T BinarySearch<T>(T good, T bad, Predicate<T> condition) where T : IBinaryInteger<T>, ISignedNumber<T> { while (good - bad < -T.One || T.One < good - bad) { T mid = (good + bad) >> 1; if (condition(mid)) good = mid; else bad = mid; } return good; }
   [MI(R256)] public static T BinarySearch<T>(T good, T bad, Func<T, T, T, bool> condition) where T : IBinaryInteger<T>, ISignedNumber<T> { while (good - bad < -T.One || T.One < good - bad) { T mid = (good + bad) >> 1; if (condition(good, mid, bad)) good = mid; else bad = mid; } return good; }
   [MI(R256)] public static T BinarySearch<T>(T good, T bad, T precision, Predicate<T> condition) where T : INumber<T>, ISignedNumber<T> { T two = T.One + T.One; while (good - bad < -precision || precision < good - bad) { var mid = (good + bad) / two; if (condition(mid)) good = mid; else bad = mid; } return good; }

@@ -16,7 +16,7 @@ public static class Program {
 
 
 #region library
-// #pragma warning disable
+#pragma warning disable
 public static class AlgoLib {
   public static void Main() { Console.SetOut(cout); Console.SetError(cerr); if (MANY_RECURSIONS) { Thread t = new(Program.main, 134217728); t.Start(); t.Join(); } else Program.main(); cout.Flush(); cerr.Flush(); }
 }
@@ -83,9 +83,12 @@ public static partial class MyLib {
   [MI(R256)] public static Span<T> AsSpan<T>(this T[,] array) => MemoryMarshal.CreateSpan(ref array[0, 0], array.Length);
   [MI(R256)] public static Span<T> AsSpan<T>(this T[,,] array) => MemoryMarshal.CreateSpan(ref array[0, 0, 0], array.Length);
   [MI(R256)] public static Span<T> AsSpan<T>(this List<T> list) => CollectionsMarshal.AsSpan(list);
-  [MI(R256)] public static void Fill<T>(this List<List<T>> list, int length0, int length1, T v) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) list[i][j] = v; }
-  [MI(R256)] public static void Fill<T>(this List<List<List<T>>> list, int length0, int length1, int length2, T value) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) for (int k = 0; k < length2; ++k) list[i][j][k] = value; }
+  [MI(R256)] public static void Fill<T>(this IList<List<T>> list, int length0, int length1, T v) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) list[i][j] = v; }
+  [MI(R256)] public static void Fill<T>(this IList<List<List<T>>> list, int length0, int length1, int length2, T value) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) for (int k = 0; k < length2; ++k) list[i][j][k] = value; }
   [MI(R256)] public static void NewAll<T>(this IList<T> list) where T : new() { for (int i = 0; i < list.Count; i++) list[i] = new(); }
+  [MI(R256)] public static T PopLast<T>(this List<T> list) { T res = list[^1]; list.RemoveAt(list.Count - 1); return res; }
+  [MI(R256)] public static (bool Success, T Item) TryPopLast<T>(this List<T> list) => list.Count == 0 ? (false, default) : (true, list.PopLast());
+  [MI(R256)] public static IEnumerable<T> PopRange<T>(this List<T> list, Range rng) { var (off, len) = rng.GetOffsetAndLength(list.Count); var res = list.GetRange(off, len); list.RemoveRange(off, len); return res; }
   [MI(R256)] public static T[,] Transpose<T>(this T[,] src) { var res = new T[src.GetLength(1), src.GetLength(0)]; for (int i = 0; i < src.GetLength(1); i++) for (int j = 0; j < src.GetLength(0); j++) res[i, j] = src[j, i]; return res; }
   [MI(R256)] public static T[,] Transpose<T>(this List<List<T>> src) { var res = new T[src[0].Count, src.Count]; for (int i = 0; i < src[0].Count; i++) for (int j = 0; j < src.Count; j++) res[i, j] = src[j][i]; return res; }
   [MI(R256)] public static T[,] RotateLeft90<T>(this T[,] src) { int len0 = src.GetLength(0), len1 = src.GetLength(1); var res = new T[len1, len0]; for (int j = 0; j < len0; j++) { for (int i = 0; i < len1; i++) res[i, j] = src[j, len1 - 1 - i]; } return res; }
@@ -98,9 +101,6 @@ public static partial class MyLib {
   [MI(R256)] public static T BinarySearch<T>(T good, T bad, Func<T, T, T, bool> condition) where T : IBinaryInteger<T>, ISignedNumber<T> { while (good - bad < -T.One || T.One < good - bad) { T mid = (good + bad) >> 1; if (condition(good, mid, bad)) good = mid; else bad = mid; } return good; }
   [MI(R256)] public static T BinarySearch<T>(T good, T bad, T precision, Predicate<T> condition) where T : INumber<T>, ISignedNumber<T> { T two = T.One + T.One; while (good - bad < -precision || precision < good - bad) { var mid = (good + bad) / two; if (condition(mid)) good = mid; else bad = mid; } return good; }
   [MI(R256)] public static T BinarySearch<T>(T good, T bad, T precision, Func<T, T, T, bool> condition) where T : INumber<T>, ISignedNumber<T> { T two = T.One + T.One; while (good - bad < -precision || precision < good - bad) { var mid = (good + bad) / two; if (condition(good, mid, bad)) good = mid; else bad = mid; } return good; }
-  [MI(R256)] public static T PopLast<T>(this List<T> list) { T res = list[^1]; list.RemoveAt(list.Count - 1); return res; }
-  [MI(R256)] public static (bool Success, T Item) TryPopLast<T>(this List<T> list) => list.Count == 0 ? (false, default) : (true, list.PopLast());
-  [MI(R256)] public static IEnumerable<T> PopRange<T>(this List<T> list, Range rng) { var (off, len) = rng.GetOffsetAndLength(list.Count); var res = list.GetRange(off, len); list.RemoveRange(off, len); return res; }
   [MI(R256)] public static Func<T, R> Memoize<T, R>(Func<T, R> f) { var m = new Dictionary<T, R>(); return (T x) => m.TryGetValue(x, out R p) ? p : m[x] = f(x); }
 #if DEBUG
   public const bool DEBUG = true;

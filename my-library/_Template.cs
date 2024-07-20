@@ -85,7 +85,7 @@ public static partial class MyLib {
   [MI(R256)] public static Span<T> AsSpan<T>(this List<T> list) => CollectionsMarshal.AsSpan(list);
   [MI(R256)] public static void Fill<T>(this List<List<T>> list, int length0, int length1, T v) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) list[i][j] = v; }
   [MI(R256)] public static void Fill<T>(this List<List<List<T>>> list, int length0, int length1, int length2, T value) { for (int i = 0; i < length0; ++i) for (int j = 0; j < length1; ++j) for (int k = 0; k < length2; ++k) list[i][j][k] = value; }
-  [MI(R256)] public static void NewAll<T>(this List<T> list) where T : new() { for (int i = 0; i < list.Count; i++) list[i] = new(); }
+  [MI(R256)] public static void NewAll<T>(this IList<T> list) where T : new() { for (int i = 0; i < list.Count; i++) list[i] = new(); }
   [MI(R256)] public static T[,] Transpose<T>(this T[,] src) { var res = new T[src.GetLength(1), src.GetLength(0)]; for (int i = 0; i < src.GetLength(1); i++) for (int j = 0; j < src.GetLength(0); j++) res[i, j] = src[j, i]; return res; }
   [MI(R256)] public static T[,] Transpose<T>(this List<List<T>> src) { var res = new T[src[0].Count, src.Count]; for (int i = 0; i < src[0].Count; i++) for (int j = 0; j < src.Count; j++) res[i, j] = src[j][i]; return res; }
   [MI(R256)] public static T[,] RotateLeft90<T>(this T[,] src) { int len0 = src.GetLength(0), len1 = src.GetLength(1); var res = new T[len1, len0]; for (int j = 0; j < len0; j++) { for (int i = 0; i < len1; i++) res[i, j] = src[j, len1 - 1 - i]; } return res; }

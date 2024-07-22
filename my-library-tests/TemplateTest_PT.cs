@@ -1,6 +1,5 @@
 namespace my_library_tests;
 
-using System.Numerics;
 using FluentAssertions;
 using template;
 using Xunit.Abstractions;

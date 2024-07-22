@@ -1,7 +1,6 @@
 namespace my_library_tests;
 
 using System.Collections.ObjectModel;
-using System.Numerics;
 using FluentAssertions;
 using template;
 using Xunit.Abstractions;

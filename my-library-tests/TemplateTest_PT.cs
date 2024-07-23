@@ -10,16 +10,16 @@ public class TemplateTest_PT(ITestOutputHelper _output) {
   public void Construct_Valid() {
     P<int> p = (3, 4);
     p.Should().Be(new P<int>(3, 4));
-    p.X.Should().Be(3);
-    p.Y.Should().Be(4);
+    p.x.Should().Be(3);
+    p.y.Should().Be(4);
   }
 
   [Fact]
   public void Construct_Invalid() {
     P<int> p = (3, 4);
     p.Should().NotBe(new P<int>(4, 3));
-    p.X.Should().Be(3);
-    p.Y.Should().Be(4);
+    p.x.Should().Be(3);
+    p.y.Should().Be(4);
   }
 
   [Fact]

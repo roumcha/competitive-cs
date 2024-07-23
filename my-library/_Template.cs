@@ -148,23 +148,23 @@ public class COut : StreamWriter {
 }
 
 
-public readonly record struct P<T>(T X, T Y) : IEquatable<P<T>> where T : INumber<T> {
+public readonly record struct P<T>(T x, T y) : IEquatable<P<T>> where T : INumber<T> {
   [MI(R256)] public static implicit operator P<T>((T X, T Y) t) => new(t.X, t.Y);
-  [MI(R256)] public void Deconstruct(out T X, out T Y) { X = this.X; Y = this.Y; }
+  [MI(R256)] public void Deconstruct(out T x, out T y) { x = this.x; y = this.y; }
   public static P<T> Zero { [MI(R256)] get => (T.Zero, T.Zero); }
-  [MI(R256)] public static P<T> operator +(P<T> a, P<T> b) => (a.X + b.X, a.Y + b.Y);
-  [MI(R256)] public static P<T> operator -(P<T> a, P<T> b) => (a.X - b.X, a.Y - b.Y);
-  [MI(R256)] public static P<T> operator *(P<T> a, T b) => (a.X * b, a.Y * b);
-  [MI(R256)] public static P<T> operator /(P<T> a, T b) => (a.X / b, a.Y / b);
-  [MI(R256)] public P<int> Signs() => (T.Sign(this.X), T.Sign(this.Y));
-  [MI(R256)] public bool InInterval(P<T> ulIncl, P<T> drExcl) => ulIncl.X <= this.X && this.X < drExcl.X && ulIncl.Y <= this.Y && this.Y < drExcl.Y;
-  [MI(R256)] public bool InClosedInterval(P<T> a, P<T> b) => T.Min(a.X, b.X) <= this.X && this.X <= T.Max(a.X, b.X) && T.Min(a.Y, b.Y) <= this.Y && this.Y <= T.Max(a.Y, b.Y);
-  [MI(R256)] public static IEnumerable<P<T>> Range(P<T> drExcl) { for (T i = T.Zero; i < drExcl.X; i++) { for (T j = T.Zero; j < drExcl.Y; j++) yield return new(i, j); } }
-  public static IEnumerable<P<T>> Range(P<T> incl, P<T> excl) { T sx = excl.X > incl.X ? T.One : -T.One, sy = excl.Y > incl.Y ? T.One : -T.One; for (T i = incl.X; sx > T.Zero ? i < excl.X : i > excl.X; i += sx) for (T j = incl.Y; sy > T.Zero ? j < excl.Y : j > excl.Y; j += sy) yield return new(i, j); }
-  [MI(R256)] public T DistE2(P<T> p) { T dx = this.X - p.X, dy = this.Y - p.Y; return dx * dx + dy * dy; }
-  [MI(R256)] public T DistM(P<T> p) => T.Abs(this.X - p.X) + T.Abs(this.Y - p.Y);
-  [MI(R256)] public override string ToString() => this.X.ToString() + " " + this.Y.ToString();
-  [MI(R256)] public string ToString(string pre, string sep, string post) => pre + this.X.ToString() + sep + this.Y.ToString() + post;
+  [MI(R256)] public static P<T> operator +(P<T> a, P<T> b) => (a.x + b.x, a.y + b.y);
+  [MI(R256)] public static P<T> operator -(P<T> a, P<T> b) => (a.x - b.x, a.y - b.y);
+  [MI(R256)] public static P<T> operator *(P<T> a, T b) => (a.x * b, a.y * b);
+  [MI(R256)] public static P<T> operator /(P<T> a, T b) => (a.x / b, a.y / b);
+  [MI(R256)] public P<int> Signs() => (T.Sign(this.x), T.Sign(this.y));
+  [MI(R256)] public bool InInterval(P<T> ulIncl, P<T> drExcl) => ulIncl.x <= this.x && this.x < drExcl.x && ulIncl.y <= this.y && this.y < drExcl.y;
+  [MI(R256)] public bool InClosedInterval(P<T> a, P<T> b) => T.Min(a.x, b.x) <= this.x && this.x <= T.Max(a.x, b.x) && T.Min(a.y, b.y) <= this.y && this.y <= T.Max(a.y, b.y);
+  [MI(R256)] public static IEnumerable<P<T>> Range(P<T> drExcl) { for (T i = T.Zero; i < drExcl.x; i++) { for (T j = T.Zero; j < drExcl.y; j++) yield return new(i, j); } }
+  public static IEnumerable<P<T>> Range(P<T> incl, P<T> excl) { T sx = excl.x > incl.x ? T.One : -T.One, sy = excl.y > incl.y ? T.One : -T.One; for (T i = incl.x; sx > T.Zero ? i < excl.x : i > excl.x; i += sx) for (T j = incl.y; sy > T.Zero ? j < excl.y : j > excl.y; j += sy) yield return new(i, j); }
+  [MI(R256)] public T DistE2(P<T> p) { T dx = this.x - p.x, dy = this.y - p.y; return dx * dx + dy * dy; }
+  [MI(R256)] public T DistM(P<T> p) => T.Abs(this.x - p.x) + T.Abs(this.y - p.y);
+  [MI(R256)] public override string ToString() => this.x.ToString() + " " + this.y.ToString();
+  [MI(R256)] public string ToString(string pre, string sep, string post) => pre + this.x.ToString() + sep + this.y.ToString() + post;
   /// <summary>R, D, L, U</summary>
   public static readonly ReadOnlyCollection<P<T>> Dir4 = new P<T>[] { (T.Zero, T.One), (T.One, T.Zero), (T.Zero, -T.One), (-T.One, T.Zero), }.AsReadOnly();
   /// <summary>R, RD, D, DL, L, LU, U, UR</summary>

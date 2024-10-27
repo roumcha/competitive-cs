@@ -142,8 +142,8 @@ public class COut : StreamWriter {
   [MI(R256)] public void Print(IEnumerable<char> seq) => this.WriteLine(string.Concat(seq));
   [MI(R256)] public void Print2D(IEnumerable<IEnumerable<char>> seq) { foreach (var x in seq) this.WriteLine(string.Concat(x)); }
   [MI(R256)] public void Print2D<T>(IEnumerable<IEnumerable<T>> seq) { foreach (var x in seq) this.WriteLine(string.Join(' ', x)); }
-  [MI(R256)] public void Print2D(char[,] array) { var span = MemoryMarshal.CreateReadOnlySpan(ref array[0, 0], array.Length); int h = array.GetLength(0), w = array.GetLength(1); for (int i = 0; i < h; i++) this.WriteLine(new string(span[(i * w)..((i + 1) * w)])); }
-  [MI(R256)] public void Print2D<T>(T[,] array) { int h = array.GetLength(0), w = array.GetLength(1); for (int i = 0; i < h; i++) { var sb = new StringBuilder(2 * w); for (int j = 0; j < w; j++) { sb.Append(array[i, j]); if (j < w - 1) sb.Append(' '); } this.WriteLine(sb); } }
+  [MI(R256)] public void Print2D(char[,] array) { var span = MemoryMarshal.CreateReadOnlySpan(ref array[0, 0], array.Length); int h = array.GetLength(0), w = array.GetLength(1); for (int i = 0; i < h; i++) this.WriteLine(span[(i * w)..((i + 1) * w)]); }
+  [MI(R256)] public void Print2D<T>(T[,] array) { int h = array.GetLength(0), w = array.GetLength(1); var s = MemoryMarshal.CreateReadOnlySpan(ref array[0, 0], array.Length); for (int i = 0; i < h; i++) { var r = s.Slice(i * w, w); this.WriteLine(string.Join(' ', r.ToArray())); } }
 }
 
 

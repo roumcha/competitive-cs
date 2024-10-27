@@ -44,4 +44,14 @@ public class TemplateTest_PT(ITestOutputHelper _output) {
   public void InInterval_Valid(P<int> p, P<int> ulIncl, P<int> drExcl, bool expected) {
     p.InInterval(ulIncl, drExcl).Should().Be(expected);
   }
+
+  [Theory]
+  [InlineData(0, 0, 0, 0, 0)]
+  [InlineData(0, 5, 0, 10, 5)]
+  [InlineData(10, 20, 30, 45, 25)]
+  [InlineData(-10, 2, 10, 3, 20)]
+  [InlineData(0, 0, int.MaxValue, int.MaxValue, int.MaxValue)]
+  public void DistC_Valid(int px, int py, int qx, int qy, int expected) {
+    new P<int>(px, py).DistC(new P<int>(qx, qy)).Should().Be(expected);
+  }
 }

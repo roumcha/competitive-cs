@@ -162,6 +162,7 @@ public readonly record struct P<T>(T x, T y) : IEquatable<P<T>> where T : INumbe
   public static IEnumerable<P<T>> Range(P<T> incl, P<T> excl) { T sx = excl.x > incl.x ? T.One : -T.One, sy = excl.y > incl.y ? T.One : -T.One; for (T i = incl.x; sx > T.Zero ? i < excl.x : i > excl.x; i += sx) for (T j = incl.y; sy > T.Zero ? j < excl.y : j > excl.y; j += sy) yield return new(i, j); }
   [MI(R256)] public T DistE2(P<T> p) { T dx = this.x - p.x, dy = this.y - p.y; return dx * dx + dy * dy; }
   [MI(R256)] public T DistM(P<T> p) => T.Abs(this.x - p.x) + T.Abs(this.y - p.y);
+  [MI(R256)] public T DistC(P<T> p) => T.Max(T.Abs(this.x - p.x), T.Abs(this.y - p.y));
   [MI(R256)] public override string ToString() => this.x.ToString() + " " + this.y.ToString();
   [MI(R256)] public string ToString(string pre, string sep, string post) => pre + this.x.ToString() + sep + this.y.ToString() + post;
   /// <summary>R, D, L, U</summary>

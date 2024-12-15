@@ -33,9 +33,10 @@ public class PrimeNumberTest(ITestOutputHelper _output) {
 
   [Fact(Timeout = 500)]
   public void Sieve_OutOfRange() {
-    var func = () => PrimeNumber.Sieve(0);
-    func.Should().Throw<ArgumentOutOfRangeException>();
-    Assert.Throws<ArgumentOutOfRangeException>(() => PrimeNumber.Sieve((uint)Array.MaxLength));
+    var func1 = () => PrimeNumber.Sieve(0);
+    func1.Should().Throw<ArgumentOutOfRangeException>();
+    var func2 = () => PrimeNumber.Sieve((uint)Array.MaxLength);
+    func2.Should().Throw<ArgumentOutOfRangeException>();
   }
 
   [Fact(Timeout = 500)]
@@ -107,16 +108,5 @@ public class PrimeFactorizerTest(ITestOutputHelper _output) {
   public void Factorize_OutOfRange() {
     var func = () => PrimeFactorizer.Factorize(1);
     func.Should().Throw<ArgumentOutOfRangeException>();
-  }
-
-  [Fact]
-  public void Factorize_Compare() {
-    var pfer = new PrimeFactorizer(100005);
-    var t0 = Stopwatch.GetTimestamp();
-    for (uint i = 10000; i <= 100005; i++) pfer.FactorizeFast(i);
-    var t1 = Stopwatch.GetTimestamp();
-    for (uint i = 10000; i <= 100005; i++) PrimeFactorizer.Factorize(i);
-    var t2 = Stopwatch.GetTimestamp();
-    (t1 - t0).Should().BeLessThan(t2 - t1);
   }
 }

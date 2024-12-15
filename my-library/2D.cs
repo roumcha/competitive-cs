@@ -12,7 +12,8 @@ public static partial class Mylib {
   }
 
   public static void RotateLeft90<T>(this T[,] src) {
-    int n = src.GetLength(0);
+    int n = src.GetLength(0), m = src.GetLength(1);
+    if (n != m) throw new ArgumentException($"width ({n}) must be the same as height ({m})");
     for (int i = 0; i < n / 2; i++) {
       for (int j = i; j < n - i - 1; j++) {
         T t = src[i, j];
@@ -25,7 +26,8 @@ public static partial class Mylib {
   }
 
   public static void RotateRight90<T>(this T[,] src) {
-    int n = src.GetLength(0);
+    int n = src.GetLength(0), m = src.GetLength(1);
+    if (n != m) throw new ArgumentException($"width ({n}) must be the same as height ({m})");
     for (int i = 0; i < n / 2; i++) {
       for (int j = i; j < n - i - 1; j++) {
         T t = src[i, j];

@@ -3,7 +3,7 @@ public struct Frac : IComparable, IComparable<Frac>, IEquatable<Frac> {
   public long N, D;
   [MI(R256)] public Frac(long numer, long denom) { N = numer; D = denom; this.Reduce(); }
   [MI(R256)] public static implicit operator Frac(long numer) => new() { N = numer, D = 1 };
-  [MI(R256)] public void Reduce() { long g = Gcd(N, D); N /= g; D /= g; if (D < 0) { N = -N; D = -D; } }
+  [MI(R256)] public void Reduce() { long g = (long)Gcd((ulong)Abs(N), (ulong)Abs(D)); N /= g; D /= g; if (D < 0) { N = -N; D = -D; } }
   [MI(R256)] public readonly Frac Reciprocal() => new(D, N);
   [MI(R256)] public static Frac operator -(Frac x) => new(-x.N, x.D);
   [MI(R256)] public static Frac operator +(Frac x, Frac y) => new(x.N * y.D + y.N * x.D, x.D * y.D);

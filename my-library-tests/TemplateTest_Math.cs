@@ -74,4 +74,46 @@ public class TemplateTest_Math(ITestOutputHelper _output) {
   public void nPr_Overflow(int n, int r) {
     Assert.Throws<OverflowException>(() => nPr(n, r));
   }
+
+  [Theory]
+  [InlineData(0, 0, 0)]
+  [InlineData(0, 1, 1)]
+  [InlineData(1, 1, 1)]
+  [InlineData(12, 20, 4)]
+  [InlineData(uint.MaxValue, uint.MaxValue, uint.MaxValue)]
+  public void Gcd_Valid(uint a, uint b, uint expected) {
+    Gcd(a, b).Should().Be(expected);
+    Gcd(b, a).Should().Be(expected);
+  }
+
+  [Theory]
+  [InlineData(1, 1, 1)]
+  [InlineData(1, 2, 2)]
+  [InlineData(12, 20, 60)]
+  [InlineData(1, uint.MaxValue, uint.MaxValue)]
+  [InlineData(65537, uint.MaxValue / 65537, uint.MaxValue)]
+  public void Lcm_Valid(uint a, uint b, uint expected) {
+    Lcm(a, b).Should().Be(expected);
+    Lcm(b, a).Should().Be(expected);
+  }
+
+  [Theory]
+  [InlineData(2, uint.MaxValue)]
+  public void Lcm_Overflow(uint a, uint b) {
+    var func1 = () => Lcm(a, b);
+    func1.Should().Throw<OverflowException>();
+    var func2 = () => Lcm(b, a);
+    func2.Should().Throw<OverflowException>();
+  }
+
+  [Theory]
+  [InlineData(0, 0)]
+  [InlineData(0, 1)]
+  [InlineData(0, uint.MaxValue)]
+  public void Lcm_UndefinedToZero(uint a, uint b) {
+    var func1 = () => Lcm(a, b);
+    func1.Should().Throw<ArgumentOutOfRangeException>();
+    var func2 = () => Lcm(b, a);
+    func2.Should().Throw<ArgumentOutOfRangeException>();
+  }
 }

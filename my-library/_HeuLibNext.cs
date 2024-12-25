@@ -1,5 +1,17 @@
 // namespace HeuLibNext;
 
+
+// public readonly record struct Input(
+
+// ) {
+
+//   public static Input FromCIn(CIn @in) {
+//     return new();
+//   }
+
+// };
+
+
 // public static class Annealing {
 
 //   public interface IState<TSelf, TAConsts>
@@ -22,7 +34,6 @@
 //   )
 //   where TState : IState<TState, TConsts> {
 //     long startTime = GetTime();
-//     long duration = endTime - startTime;
 
 //     int i, time;
 //     double score = state.GetScore(consts);

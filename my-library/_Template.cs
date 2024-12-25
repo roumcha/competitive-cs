@@ -33,8 +33,10 @@ public static class HeuLib {
 
   [MI(R256)] public static void Log(this COut @out, string s) => @out.WriteLine($"[{GetTime():D4}ms] " + s);
 
+  [Conditional("DEBUG")][MI(R256)] public static void DebugLog(this COut @out, string s) => @out.WriteLine($"[{GetTime():D4}ms] " + s);
+
   public static void Main() {
-    cerr.Log($"Start.");
+    cerr.Log($"Started.");
 
     Console.SetOut(cout);
     Console.SetError(cerr);
@@ -48,7 +50,7 @@ public static class HeuLib {
     }
 
     cout.Flush();
-    cerr.Log($"Complete.");
+    cerr.Log($"Completed.");
     cerr.Flush();
   }
 
@@ -166,9 +168,9 @@ public readonly record struct P<T>(T x, T y) : IEquatable<P<T>> where T : INumbe
   [MI(R256)] public override string ToString() => this.x.ToString() + " " + this.y.ToString();
   [MI(R256)] public string ToString(string pre, string sep, string post) => pre + this.x.ToString() + sep + this.y.ToString() + post;
   /// <summary>R, D, L, U</summary>
-  public static readonly ReadOnlyCollection<P<T>> Dir4 = new P<T>[] { (T.Zero, T.One), (T.One, T.Zero), (T.Zero, -T.One), (-T.One, T.Zero), }.AsReadOnly();
+  public static ReadOnlySpan<P<T>> Dir4 => new P<T>[] { (T.Zero, T.One), (T.One, T.Zero), (T.Zero, -T.One), (-T.One, T.Zero), };
   /// <summary>R, RD, D, DL, L, LU, U, UR</summary>
-  public static readonly ReadOnlyCollection<P<T>> Dir8 = new P<T>[] { (T.Zero, T.One), (T.One, T.One), (T.One, T.Zero), (T.One, -T.One), (T.Zero, -T.One), (-T.One, -T.One), (-T.One, T.Zero), (-T.One, T.One), }.AsReadOnly();
+  public static ReadOnlySpan<P<T>> Dir8 => new P<T>[] { (T.Zero, T.One), (T.One, T.One), (T.One, T.Zero), (T.One, -T.One), (T.Zero, -T.One), (-T.One, -T.One), (-T.One, T.Zero), (-T.One, T.One), };
 }
 
 #endregion

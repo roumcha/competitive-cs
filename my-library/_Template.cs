@@ -94,6 +94,8 @@ public static partial class MyLib {
   [MI(R256)] public static Dictionary<V, int> CountBy<K, V>(this IEnumerable<K> seq, Func<K, V> func) where V : notnull { var dict = new Dictionary<V, int>(); foreach (var item in seq) { var key = func(item); dict[key] = dict.TryGetValue(key, out int count) ? count + 1 : 1; } return dict; }
   [MI(R256)] public static IEnumerable<U> Scan<T, U>(this IEnumerable<T> seq, U def, Func<U, T, U> func) { yield return def; foreach (var x in seq) { def = func(def, x); yield return def; } }
   [MI(R256)] public static IEnumerable<U> ScanBack<T, U>(this IEnumerable<T> seq, U def, Func<U, T, U> func) { yield return def; foreach (var x in seq.Reverse()) { def = func(def, x); yield return def; } }
+  [MI(R256)] public static IEnumerable<T> View<T>(this IEnumerable<T> seq, Action<T> act) { foreach (var x in seq) { act(x); yield return x; } }
+  [MI(R256)] public static IEnumerable<(T item, int idx)> Index<T>(this IEnumerable<T> seq) { int i = 0; foreach (var x in seq) yield return (x, i++); }
   [MI(R256)] public static IEnumerable<(T Fst, T Snd)> Pairwise<T>(this IEnumerable<T> seq) where T : struct { var e = seq.GetEnumerator(); e.MoveNext(); T prev = e.Current; while (e.MoveNext()) yield return (prev, prev = e.Current); }
   [MI(R256)] public static bool IsSubsequenceOf<T>(this IEnumerable<T> seq, IEnumerable<T> sub) where T : IEquatable<T> { using var e = seq.GetEnumerator(); using var f = sub.GetEnumerator(); if (!e.MoveNext()) return true; while (f.MoveNext()) if (e.Current.Equals(f.Current) && !e.MoveNext()) return true; return false; }
   [MI(R256)] public static string CollectStr(this IEnumerable<char> seq) => string.Concat(seq);

@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>annotations</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>LOCAL_PROJ</DefineConstants>
+    <DefineConstants>LOCAL</DefineConstants>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <InvariantGlobalization>true</InvariantGlobalization>
     <RootNamespace>template</RootNamespace>

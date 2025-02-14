@@ -30,35 +30,13 @@ public class _Set<T> :
   /// <remarks>O(1)</remarks>
   [MI(R256)] public _Set(Comparison<T> cmp) : this(Comparer<T>.Create(cmp)) { }
 
-  /// <param name="orderedItems">
-  ///   初期要素の列。<paramref name="cmp"/> 順でソート済みであること。
-  /// </param>
-  /// <remarks>O(N)</remarks>
-  [MI(R256)]
-  public _Set(ReadOnlySpan<T> orderedItems, Comparer<T> cmp) {
-    _root = Node.CreateBlackOnlyTree(orderedItems);
-    _comparer = cmp;
-  }
-
-  /// <param name="orderedItems">
-  ///   初期要素の列。ソート済みであること。
-  /// </param>
-  /// <remarks>O(N)</remarks>
-  [MI(R256)] public _Set(ReadOnlySpan<T> orderedItems) : this(orderedItems, Comparer<T>.Default) { }
-
-  /// <param name="orderedItems">
-  ///   初期要素の列。 <paramref name="cmp"/> 順でソート済みであること。
-  /// </param>
-  /// <remarks>O(N)</remarks>
-  [MI(R256)] public _Set(ReadOnlySpan<T> orderedItems, Comparison<T> cmp) : this(orderedItems, Comparer<T>.Create(cmp)) { }
-
   #endregion constractors
 
 
   #region public_methods
 
   /// <remarks>O(log N)</remarks>
-  [MI(R256)] public bool Add(T value) => this.Insert(ref _root, value);
+  [MI(R256)] public bool Add(T value) => this.Insert(ref _root, value) != null;
   /// <remarks>O(log N)</remarks>
   public bool Contains(T item) { throw new NotImplementedException(); }
   /// <remarks>O(log N)</remarks>
@@ -98,20 +76,21 @@ public class _Set<T> :
 
   #region private_methods
 
-  bool Insert(ref Node? node, T value) {
+  /// <summary><paramref name="node"/> 以下の部分木に <paramref name="value"/> を挿入します。</summary>
+  /// <returns>挿入された場合はそのノード。挿入しなかった場合は <c>null</c> 。</returns>
+  Node? Insert(ref Node? node, T value) {
     // NIL を発見したらそこへ挿入
     if (node == null) {
-      node = new Node {
+      return node = new Node {
         Color = Color.Red,
         Value = value,
         Left = null, Right = null,
         Count = 1
       };
-      return true;
     }
 
     // 今のノードと比較。小さいなら左へ、大きいなら右へ降りる。
-    bool res;
+    Node? res;
     switch (_comparer.Compare(value, node.Value)) {
       case < 0:
         res = this.Insert(ref node.Left, value);
@@ -120,14 +99,90 @@ public class _Set<T> :
         res = this.Insert(ref node.Right, value);
         break;
       case 0:
-        // 同一の値がすでにある場合、マルチセットなら挿入、そうでなければ挿入しない。
+        // 同一の値がすでにある場合、マルチセットなら左へ降りて続行、そうでなければ中止。
+        // 検索時も左にしか降りないようにするので、右に変更禁止。
         if (this.IsMultiSet) res = this.Insert(ref node.Left, value);
-        else return false;
+        else return null;
         break;
     }
 
     node.Update();
     return res;
+  }
+
+  /// <summary><paramref name="node"/> 以下の部分木で、値 <paramref name="value"/> を持つノードを検索します。</summary>
+  /// <returns>見つかったノード（の1つ）。なければ <c>null</c> 。</returns>
+  [MI(R256)]
+  Node? Find(Node? node, T value) {
+    while (node != null) {
+      int cmp = _comparer.Compare(value, node.Value);
+      if (cmp == 0) return node;
+      node = cmp < 0 ? node.Left : node.Right;
+    }
+    return null;
+  }
+
+  /// <summary><paramref name="node"/> 以下の部分木で、値 <paramref name="value"/> を持つノードを数えます。</summary>
+  [MI(R256)]
+  private int CountNodes(Node? node, T value) {
+    if (node == null) return 0;
+    int cmp = _comparer.Compare(value, node.Value);
+    if (cmp == 0) return 1 + this.CountNodes(node.Left, value);
+    return this.CountNodes(cmp < 0 ? node.Left : node.Right, value);
+  }
+
+  /// <summary>左の子を自身の位置に移動する、左回転を行います。</summary>
+  /// <remarks>プロパティ更新なし。 O(1)。</remarks>
+  /// <returns>回転後に自身の位置に来るノード</returns>
+  [MI(R256)]
+  static void RotateLeft(ref Node node) {
+    Debug.Assert(node.Right is not null);
+    Node child = node.Right!;
+    node.Right = child.Left;
+    child.Left = node;
+    node = child;
+  }
+
+  /// <summary>左の子の位置を左回転をしたのち、自身の位置を右回転します。</summary>
+  /// <remarks>プロパティ更新なし。 O(1)。</remarks>
+  /// <returns>回転後に自身の位置に来るノード</returns>
+  [MI(R256)]
+  static void RotateLeftRight(ref Node node) {
+    Debug.Assert(node.Left != null);
+    Debug.Assert(node.Left.Right != null);
+    Node child = node.Left!, grandChild = child.Right!;
+    node.Left = grandChild.Right;
+    grandChild.Right = node;
+    child.Right = grandChild.Left;
+    grandChild.Left = child;
+    node = grandChild;
+  }
+
+  /// <summary>右の子を自身の位置に移動する、右回転を行います。</summary>
+  /// <remarks>プロパティ更新なし。 O(1)。</remarks>
+  /// <returns>回転後に自身の位置に来るノード</returns>
+  [MI(R256)]
+  static void RotateRight(ref Node node) {
+    Debug.Assert(node.Left != null);
+    Node child = node.Left!;
+    node.Left = child.Right;
+    child.Right = node;
+    node = child;
+  }
+
+  /// <summary>右の子の位置を右回転したのち、自身の位置を左回転します。</summary>
+  /// <remarks>プロパティ更新なし。 O(1)。</remarks>
+  /// <returns>回転後に自身の位置に来るノード</returns>
+  [MI(R256)]
+  static void RotateRightLeft(ref Node node) {
+    Debug.Assert(node.Right != null);
+    Debug.Assert(node.Right.Left != null);
+    Node child = node.Right!, grandChild = child.Left!;
+    node.Right = grandChild.Left;
+    grandChild.Left = node;
+    child.Left = grandChild.Right;
+    grandChild.Right = child;
+    node = grandChild;
   }
 
   #endregion private_methods
@@ -139,48 +194,10 @@ public class _Set<T> :
     public required Node? Left, Right;
     public required int Count;
 
-    /// <summary>左回転して、あらたに自分の位置に来るノードを返す</summary>
-    /// <remarks>プロパティ更新なし; O(1)</remarks>
-    [MI(R256)]
-    public Node RotateLeft() {
-      Debug.Assert(Right is not null);
-      Node child = Right!;
-      Right = child.Left;
-      child.Left = this;
-      return child;
-    }
-
-    /// <summary>右回転して、あらたに自分の位置に来るノードを返す</summary>
-    /// <remarks>プロパティ更新なし; O(1)</remarks>
-    [MI(R256)]
-    public Node RotateRight() {
-      Debug.Assert(Left is not null);
-      Node child = Left!;
-      Left = child.Right;
-      child.Right = this;
-      return child;
-    }
-
+    /// <summary>各種プロパティを更新します。</summary>
     [MI(R256)]
     public void Update() {
-      Count = Left?.Count ?? 0 + Right?.Count ?? 0 + 1;
-    }
-
-    /// <summary>黒ノードのみで木を初期化</summary>
-    /// <remarks>O(N)</remarks>
-    public static Node? CreateBlackOnlyTree(ReadOnlySpan<T> span) {
-      int count = span.Length, mid = count >> 1;
-      if (count == 0) return null;
-
-      Node? left = CreateBlackOnlyTree(span[..mid]);
-      Node? right = CreateBlackOnlyTree(span[(mid + 1)..]);
-
-      return new() {
-        Color = Color.Black,
-        Value = span[count / 2],
-        Left = left, Right = right,
-        Count = count
-      };
+      Count = (Left?.Count ?? 0) + (Right?.Count ?? 0) + 1;
     }
   }
 }

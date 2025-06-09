@@ -98,8 +98,6 @@ public static partial class MyLib {
   [MI(R256)] public static IEnumerable<(T item, int idx)> Index<T>(this IEnumerable<T> seq) { int i = 0; foreach (var x in seq) yield return (x, i++); }
   [MI(R256)] public static IEnumerable<(T Fst, T Snd)> Pairwise<T>(this IEnumerable<T> seq) where T : struct { var e = seq.GetEnumerator(); e.MoveNext(); T prev = e.Current; while (e.MoveNext()) yield return (prev, prev = e.Current); }
   [MI(R256)] public static bool IsSubsequenceOf<T>(this IEnumerable<T> seq, IEnumerable<T> sub) where T : IEquatable<T> { using var e = seq.GetEnumerator(); using var f = sub.GetEnumerator(); if (!e.MoveNext()) return true; while (f.MoveNext()) if (e.Current.Equals(f.Current) && !e.MoveNext()) return true; return false; }
-  [MI(R256)] public static string CollectStr(this IEnumerable<char> seq) => string.Concat(seq);
-  [MI(R256)] public static string ReverseStr(this string s) { var t = s.ToCharArray(); t.AsSpan().Reverse(); return new(t); }
   [MI(R256)] public static bool IsPalindrome<T>(ReadOnlySpan<T> span) where T : IEquatable<T> { int h = span.Length / 2; for (int i = 0; i < h; i++) { if (!span[i].Equals(span[^(i + 1)])) return false; } return true; }
   [MI(R256)] public static int HammingDist<T>(ReadOnlySpan<T> s, ReadOnlySpan<T> t) where T : IEquatable<T> { if (s.Length != t.Length) throw new ArgumentException($"different lengths: {s.Length}, {t.Length}"); int res = 0; for (int i = 0; i < s.Length; i++) if (!s[i].Equals(t[i])) res++; return res; }
   [MI(R256)] public static T BinarySearch<T>(T good, T bad, Predicate<T> condition) where T : IBinaryInteger<T>, ISignedNumber<T> { while (good - bad < -T.One || T.One < good - bad) { T mid = (good + bad) >> 1; if (condition(mid)) good = mid; else bad = mid; } return good; }

@@ -54,4 +54,18 @@ public static partial class Mylib {
       for (int j = 0; j < len1; j++) res[j, len0 - 1 - i] = src[i, j];
     return res;
   }
+
+  public static void Scan2DInPlace<T>(this T[,] array, Func<T, T, T> func) {
+    int h = array.GetLength(0), w = array.GetLength(1);
+    for (int i = 0; i < h; i++) {
+      for (int j = 0; j < w - 1; j++) {
+        array[i, j + 1] = func(array[i, j], array[i, j + 1]);
+      }
+    }
+    for (int i = 0; i < h - 1; i++) {
+      for (int j = 0; j < w; j++) {
+        array[i + 1, j] = func(array[i, j], array[i + 1, j]);
+      }
+    }
+  }
 }

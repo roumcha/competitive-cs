@@ -7,6 +7,7 @@ using static MyLib; using static AlgoLib; using static HeuLib; using AtCoder; us
 
 public static class Program {
 
+  [MI(R512)]
   public static void main() {
 
   }

@@ -1,9 +1,7 @@
 namespace my_library_tests;
 
 using System.Numerics;
-using FluentAssertions;
 using template;
-using Xunit.Abstractions;
 using static template.MyLib;
 
 public class TemplateTest_Seq(ITestOutputHelper _output) {
@@ -18,7 +16,7 @@ public class TemplateTest_Seq(ITestOutputHelper _output) {
   [InlineData("abc", "acb", false)]
   [InlineData("abc", "abdc", true)]
   public static void IsSubsequenceOf_Vaild(string str, string sub, bool expected) {
-    str.IsSubsequenceOf(sub).Should().Be(expected);
+    str.IsSubsequenceOf(sub).ShouldBe(expected);
   }
 
   [Theory]
@@ -30,6 +28,6 @@ public class TemplateTest_Seq(ITestOutputHelper _output) {
   [InlineData("AaA", true)]
   [InlineData("Aaa", false)]
   public static void IsPalindrome_Valid(string input, bool expected) {
-    IsPalindrome(input.AsSpan()).Should().Be(expected);
+    IsPalindrome(input.AsSpan()).ShouldBe(expected);
   }
 }

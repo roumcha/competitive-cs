@@ -1,12 +1,11 @@
 namespace my_library_tests;
 
 using System.Collections.ObjectModel;
-using FluentAssertions;
 using template;
-using Xunit.Abstractions;
 using static template.MyLib;
 
 public class _2DTest(ITestOutputHelper _output) {
+
   [Fact]
   public void ToTransposed_2D_Valid() {
     var init = new[,] { { 0, 1, 2, 3 }, { 4, 5, 6, 7 }, { 8, 9, 10, 11 } };
@@ -17,14 +16,14 @@ public class _2DTest(ITestOutputHelper _output) {
 
     for (int i = 0; i < actual.GetLength(0); i++) {
       for (int j = 0; j < actual.GetLength(1); j++) {
-        actual[i, j].Should().Be(expected[i, j]);
+        actual[i, j].ShouldBe(expected[i, j]);
       }
     }
 
     // src shouldn't be changed
     for (int i = 0; i < src.GetLength(0); i++) {
       for (int j = 0; j < src.GetLength(1); j++) {
-        src[i, j].Should().Be(init[i, j]);
+        src[i, j].ShouldBe(init[i, j]);
       }
     }
   }
@@ -39,14 +38,14 @@ public class _2DTest(ITestOutputHelper _output) {
 
     for (int i = 0; i < actual.GetLength(0); i++) {
       for (int j = 0; j < actual.GetLength(1); j++) {
-        actual[i, j].Should().Be(expected[i, j]);
+        actual[i, j].ShouldBe(expected[i, j]);
       }
     }
 
     // src shouldn't be changed
     for (int i = 0; i < src.Count; i++) {
       for (int j = 0; j < src[i].Count; j++) {
-        src[i][j].Should().Be(init[i][j]);
+        src[i][j].ShouldBe(init[i][j]);
       }
     }
   }
@@ -68,7 +67,7 @@ public class _2DTest(ITestOutputHelper _output) {
 
     for (int i = 0; i < src.GetLength(0); i++) {
       for (int j = 0; j < src.GetLength(1); j++) {
-        src[i, j].Should().Be(expected[i, j]);
+        src[i, j].ShouldBe(expected[i, j]);
       }
     }
   }
@@ -90,7 +89,7 @@ public class _2DTest(ITestOutputHelper _output) {
 
     for (int i = 0; i < src.GetLength(0); i++) {
       for (int j = 0; j < src.GetLength(1); j++) {
-        src[i, j].Should().Be(expected[i, j]);
+        src[i, j].ShouldBe(expected[i, j]);
       }
     }
   }
@@ -105,14 +104,14 @@ public class _2DTest(ITestOutputHelper _output) {
 
     for (int i = 0; i < actual.GetLength(0); i++) {
       for (int j = 0; j < actual.GetLength(1); j++) {
-        actual[i, j].Should().Be(expected[i, j]);
+        actual[i, j].ShouldBe(expected[i, j]);
       }
     }
 
     // src shouldn't be changed
     for (int i = 0; i < src.GetLength(0); i++) {
       for (int j = 0; j < src.GetLength(1); j++) {
-        src[i, j].Should().Be(init[i, j]);
+        src[i, j].ShouldBe(init[i, j]);
       }
     }
   }
@@ -127,15 +126,16 @@ public class _2DTest(ITestOutputHelper _output) {
 
     for (int i = 0; i < actual.GetLength(0); i++) {
       for (int j = 0; j < actual.GetLength(1); j++) {
-        actual[i, j].Should().Be(expected[i, j]);
+        actual[i, j].ShouldBe(expected[i, j]);
       }
     }
 
     // src shouldn't be changed
     for (int i = 0; i < src.GetLength(0); i++) {
       for (int j = 0; j < src.GetLength(1); j++) {
-        src[i, j].Should().Be(init[i, j]);
+        src[i, j].ShouldBe(init[i, j]);
       }
     }
   }
+
 }

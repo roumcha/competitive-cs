@@ -12,6 +12,8 @@ public class _Set<T> :
 
   enum Color : byte { Black, Red, }
 
+  #region fields_and_props
+
   Node? _root;
   readonly Comparer<T> _comparer;
   public int Count { [MI(R256)] get => _root?.Count ?? 0; }
@@ -19,6 +21,8 @@ public class _Set<T> :
   public bool IsMultiSet { [MI(R256)] get; [MI(R256)] set; } = false;
   public bool IsReadOnly { [MI(R256)] get => false; }
   public bool IsSynchronized { [MI(R256)] get => false; }
+
+  #endregion fields_and_props
 
 
   #region constractors
@@ -76,38 +80,45 @@ public class _Set<T> :
 
   #region private_methods
 
-  /// <summary><paramref name="node"/> 以下の部分木に <paramref name="value"/> を挿入します。</summary>
-  /// <returns>挿入された場合はそのノード。挿入しなかった場合は <c>null</c> 。</returns>
-  Node? Insert(ref Node? node, T value) {
-    // NIL を発見したらそこへ挿入
-    if (node == null) {
-      return node = new Node {
+  /// <summary><paramref name="subtree"/> 以下に <paramref name="value"/> を挿入します。</summary>
+  /// <returns>
+  ///   <c>Node</c>: 挿入された場合はそのノード、挿入されなかった場合は <c>null</c>。 <c>Balanced</c>: 上の木の確認・修正が必要か否か。
+  /// </returns>
+  (Node? Node, bool Balanced) Insert(ref Node? subtree, T value) {
+    // NIL を発見したらそこへ挿入して、バランス修正を開始
+    if (subtree == null) {
+      subtree = new Node {
         Color = Color.Red,
         Value = value,
         Left = null, Right = null,
         Count = 1
       };
+      return (subtree, false);
     }
 
     // 今のノードと比較。小さいなら左へ、大きいなら右へ降りる。
-    Node? res;
-    switch (_comparer.Compare(value, node.Value)) {
+    Node? node;
+    bool balanced;
+    switch (_comparer.Compare(value, subtree.Value)) {
       case < 0:
-        res = this.Insert(ref node.Left, value);
+        (node, balanced) = this.Insert(ref subtree.Left, value);
         break;
       case > 0:
-        res = this.Insert(ref node.Right, value);
+        (node, balanced) = this.Insert(ref subtree.Right, value);
         break;
       case 0:
         // 同一の値がすでにある場合、マルチセットなら左へ降りて続行、そうでなければ中止。
         // 検索時も左にしか降りないようにするので、右に変更禁止。
-        if (this.IsMultiSet) res = this.Insert(ref node.Left, value);
-        else return null;
+        if (this.IsMultiSet) {
+          (node, balanced) = this.Insert(ref subtree.Left, value);
+        } else {
+          return (null, true);
+        }
         break;
     }
 
-    node.Update();
-    return res;
+    subtree.Update();
+    return node;
   }
 
   /// <summary><paramref name="node"/> 以下の部分木で、値 <paramref name="value"/> を持つノードを検索します。</summary>

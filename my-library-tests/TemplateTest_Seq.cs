@@ -1,10 +1,11 @@
-namespace my_library_tests;
+namespace MyLibrary.Tests;
 
 using System.Numerics;
 using template;
 using static template.MyLib;
 
 public class TemplateTest_Seq(ITestOutputHelper _output) {
+
   [Theory]
   [InlineData("", "", true)]
   [InlineData("", "a", true)]
@@ -30,4 +31,5 @@ public class TemplateTest_Seq(ITestOutputHelper _output) {
   public static void IsPalindrome_Valid(string input, bool expected) {
     IsPalindrome(input.AsSpan()).ShouldBe(expected);
   }
+
 }

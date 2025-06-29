@@ -1,4 +1,4 @@
-namespace my_library_tests;
+namespace MyLibrary.Tests;
 
 using System.Diagnostics;
 using template;

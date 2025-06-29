@@ -20,7 +20,7 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <NoWarn>NETSDK1138</NoWarn>
+    <NoWarn>CS9113,NETSDK1138</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

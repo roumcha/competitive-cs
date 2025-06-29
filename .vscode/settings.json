@@ -11,7 +11,9 @@
     "editor.wordBasedSuggestions": "off"
   },
   "dotnetAcquisitionExtension.enableTelemetry": false,
+  "dotnet.automaticallyCreateSolutionInWorkspace": false,
   "dotnet.codeLens.enableReferencesCodeLens": false,
+  "dotnet.defaultSolution": "competitive-cs.slnx",
   // Snippets
   "files.associations": {
     "snippets.jsonc": "snippets"

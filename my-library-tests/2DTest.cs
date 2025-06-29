@@ -95,6 +95,16 @@ public class _2DTest(ITestOutputHelper _output) {
   }
 
   [Fact]
+  public void RotateLeft90_IncompatibleSize() {
+    Should.Throw<ArgumentException>(() => new int[2, 3].RotateLeft90());
+  }
+
+  [Fact]
+  public void RotateRight90_IncompatibleSize() {
+    Should.Throw<ArgumentException>(() => new int[2, 3].RotateRight90());
+  }
+
+  [Fact]
   public void ToRotatedLeft90_Valid() {
     var init = new[,] { { 0, 1, 2, 3 }, { 4, 5, 6, 7 }, { 8, 9, 10, 11 } };
     var src = new[,] { { 0, 1, 2, 3 }, { 4, 5, 6, 7 }, { 8, 9, 10, 11 } };

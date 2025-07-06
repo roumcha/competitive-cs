@@ -14,8 +14,8 @@ public static class Seq {
 
   /// <remarks>O(L log L) where L is src's Length</remarks>
   [MI(R256)]
-  public static bool TryFirstDuplicate<T>(IEnumerable<T> src, T defval, out int pos, out T res) {
-    int i = 0; pos = -1; res = defval;
+  public static bool TryFirstDuplicate<T>(IEnumerable<T> src, out int pos, out T res) {
+    int i = 0; pos = -1; res = default;
     var s = new HashSet<T>();
     foreach (var x in src) {
       if (s.Contains(x)) { pos = i; res = x; return true; }

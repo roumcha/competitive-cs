@@ -172,6 +172,7 @@ public readonly record struct P<T>(T x, T y) : IEquatable<P<T>> where T : INumbe
   [MI(R256)] public T DistC(P<T> p) => T.Max(T.Abs(this.x - p.x), T.Abs(this.y - p.y));
   [MI(R256)] public override string ToString() => this.x.ToString() + " " + this.y.ToString();
   [MI(R256)] public string ToString(string pre, string sep, string post) => pre + this.x.ToString() + sep + this.y.ToString() + post;
+  [MI(R256)] public override int GetHashCode() => HashCode.Combine(this.x, this.y);
   /// <summary>R, D, L, U</summary>
   public static ReadOnlySpan<P<T>> Dir4 => new P<T>[] { (T.Zero, T.One), (T.One, T.Zero), (T.Zero, -T.One), (-T.One, T.Zero), };
   /// <summary>R, RD, D, DL, L, LU, U, UR</summary>

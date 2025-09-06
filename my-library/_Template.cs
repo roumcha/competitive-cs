@@ -96,8 +96,8 @@ public static partial class MyLib {
   [MI(R256)] public static IEnumerable<U> Scan<T, U>(this IEnumerable<T> seq, U def, Func<U, T, U> func) { yield return def; foreach (var x in seq) { def = func(def, x); yield return def; } }
   [MI(R256)] public static IEnumerable<U> ScanBack<T, U>(this IEnumerable<T> seq, U def, Func<U, T, U> func) { yield return def; foreach (var x in seq.Reverse()) { def = func(def, x); yield return def; } }
   [MI(R256)] public static IEnumerable<T> DebugView<T>(this IEnumerable<T> seq, Action<T> act) { foreach (var x in seq) { if (DEBUG) act(x); yield return x; } }
-  [MI(R256)] public static IEnumerable<(T item, int idx)> Index<T>(this IEnumerable<T> seq) { int i = 0; foreach (var x in seq) yield return (x, i++); }
-  [MI(R256)] public static IEnumerable<(T Fst, T Snd)> Pairwise<T>(this IEnumerable<T> seq) where T : struct { var e = seq.GetEnumerator(); e.MoveNext(); T prev = e.Current; while (e.MoveNext()) yield return (prev, prev = e.Current); }
+  [MI(R256)] public static IEnumerable<(T value, int index)> Index<T>(this IEnumerable<T> seq) { int i = 0; foreach (var x in seq) yield return (x, i++); }
+  [MI(R256)] public static IEnumerable<(T first, T second)> Pairwise<T>(this IEnumerable<T> seq) where T : struct { var e = seq.GetEnumerator(); e.MoveNext(); T prev = e.Current; while (e.MoveNext()) yield return (prev, prev = e.Current); }
   [MI(R256)] public static bool IsSubsequenceOf<T>(this IEnumerable<T> seq, IEnumerable<T> sub) where T : IEquatable<T> { using var e = seq.GetEnumerator(); using var f = sub.GetEnumerator(); if (!e.MoveNext()) return true; while (f.MoveNext()) if (e.Current.Equals(f.Current) && !e.MoveNext()) return true; return false; }
   [MI(R256)] public static string CollectStr<T>(this IEnumerable<T> seq) => string.Concat(seq);
   [MI(R256)] public static string ReverseStr(this string s) => string.Create(s.Length, s, static (dest, src) => { src.CopyTo(dest); dest.Reverse(); });
